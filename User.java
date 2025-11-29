@@ -24,16 +24,7 @@ public class User {
     };
 
 
-    public User(int id,
-                String name,
-                String username,
-                String password,
-                int totalFriends,
-                LinkedList<Integer> friendIds,
-                String city,
-                int totalInterests,
-                LinkedList<String> interestStrings) {
-
+    public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests,LinkedList<String> interestStrings) {
         this.id = id;
         this.name = name;
         this.username = username;
