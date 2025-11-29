@@ -47,7 +47,7 @@ public class main{
 		
 		//if not exist create new user
 		newUser( userName, password);
-		//set new user to user
+		//set current user to new user
 		
 		//if exists check for password match
 		//if password not match re ask password?
