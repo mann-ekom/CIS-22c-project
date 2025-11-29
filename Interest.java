@@ -1,6 +1,6 @@
 public class Interest {
-    private int id;        // index in ArrayList<BST<User>>
-    private String label;  // e.g. "coding", "swimming"
+    private int id;        
+    private String label;  
 
     public Interest(int id, String label) {
         this.id = id;
