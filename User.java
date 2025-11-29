@@ -13,8 +13,6 @@ public class User {
     private BST<User> friendsByName;
     private LinkedList<Interest> interests;
 
-
-    // ===== COMPARATOR FOR SORTING USERS =====
     public static final Comparator<User> NAME_COMPARATOR = new Comparator<User>() {
         @Override
         public int compare(User a, User b) {
@@ -24,8 +22,10 @@ public class User {
         }
     };
 
-
-    
+    /**
+     * Full constructor: takes everything from the file
+     * plus a pre-built list of Interest objects.
+     */
     public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<String> interestStrings, LinkedList<Interest> interests) {
         this.id = id;
         this.name = name;
@@ -33,34 +33,50 @@ public class User {
         this.password = password;
         this.totalFriends = totalFriends;
         this.friendIds = (friendIds != null) ? new LinkedList<Integer>(friendIds) : new LinkedList<Integer>();
-
         this.city = city;
         this.totalInterests = totalInterests;
         this.interestStrings = (interestStrings != null) ? new LinkedList<String>(interestStrings) : new LinkedList<String>();
-
         this.friendsByName = new BST<User>();
-        this.interests = new LinkedList<Interest>();
-        this.interests = interests;
+        this.interests = (interests != null) ? new LinkedList<Interest>(interests) : new LinkedList<Interest>();
+    }
+    
+    public int getId() { 
+        return id; 
+    }
+    public String getName() { 
+        return name; 
+    }
+    public String getUsername() { 
+        return username; 
+    }
+    public String getPassword() { 
+        return password; 
+    }
+    public int getTotalFriends() { 
+        return totalFriends; 
+    }
+    public LinkedList<Integer> getFriendIds() { 
+        return friendIds; 
     }
 
+    public String getCity() { 
+        return city; 
+    }
+    public int getTotalInterests() { 
+        return totalInterests; 
+    }
+    public LinkedList<String> getInterestStrings() { 
+        return interestStrings; 
+    }
 
-    // ===== GETTERS =====
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
+    public BST<User> getFriendsByName() { 
+        return friendsByName; 
+    }
+    public LinkedList<Interest> getInterests() { 
+        return interests; 
+    }
 
-    public int getTotalFriends() { return totalFriends; }
-    public LinkedList<Integer> getFriendIds() { return friendIds; }
-
-    public String getCity() { return city; }
-
-    public int getTotalInterests() { return totalInterests; }
-    public LinkedList<String> getInterestStrings() { return interestStrings; }
-
-    public BST<User> getFriendsByName() { return friendsByName; }
-    public LinkedList<Interest> getInterests() { return interests; }
-
+    // ===== FRIEND & INTEREST HELPERS =====
     public void addFriend(User friend) {
         friendsByName.insert(friend, NAME_COMPARATOR);
     }
@@ -71,10 +87,6 @@ public class User {
 
     public void addConvertedInterest(Interest interest) {
         interests.addLast(interest);
-    }
-
-    public void addFriendsByName(User user){
-        friendsByName.add(user);
     }
 
     @Override
