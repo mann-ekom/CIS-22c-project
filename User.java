@@ -32,15 +32,11 @@ public class User {
         this.username = username;
         this.password = password;
         this.totalFriends = totalFriends;
-        this.friendIds = (friendIds != null)
-                ? new LinkedList<Integer>(friendIds)
-                : new LinkedList<Integer>();
+        this.friendIds = (friendIds != null) ? new LinkedList<Integer>(friendIds) : new LinkedList<Integer>();
 
         this.city = city;
         this.totalInterests = totalInterests;
-        this.interestStrings = (interestStrings != null)
-                ? new LinkedList<String>(interestStrings)
-                : new LinkedList<String>();
+        this.interestStrings = (interestStrings != null) ? new LinkedList<String>(interestStrings) : new LinkedList<String>();
 
         this.friendsByName = new BST<User>();
         this.interests = new LinkedList<Interest>();
