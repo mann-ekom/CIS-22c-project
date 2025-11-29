@@ -91,13 +91,13 @@ public class User {
 
     @Override
     public int hashCode() {
-        return username.toLowerCase().hashCode();
+        return username.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof User)) return false;
         User other = (User) obj;
-        return this.username.equalsIgnoreCase(other.username);
+        return this.username.equals(other.username);
     }
 }
