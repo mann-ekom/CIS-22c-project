@@ -26,6 +26,20 @@ public class User {
      * Full constructor: takes everything from the file
      * plus a pre-built list of Interest objects.
      */
+    public User() {
+        this.id = -1;
+        this.name = "";
+        this.username = "";
+        this.password = "";
+        this.totalFriends = 0;
+        this.friendIds = new LinkedList<Integer>();
+        this.city = "";
+        this.totalInterests = 0;
+        this.interestStrings = new LinkedList<String>();
+        this.friendsByName = new BST<User>();
+        this.interests = new LinkedList<Interest>();
+    }
+    
     public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<String> interestStrings, LinkedList<Interest> interests) {
         this.id = id;
         this.name = name;
