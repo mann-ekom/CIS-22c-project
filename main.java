@@ -26,6 +26,7 @@ public class main{
 				//search by name
 				//search by interest
 				//get recomended friends (mason is working on this)
+					getFriendRecomendations(User curr)
 			//3: exit
 				//write users data back to file
 				MakeFile()
