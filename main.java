@@ -20,7 +20,7 @@ public class main{
 			//1: view my friends 
 				// all friends (sort by name)
 				// search for friend (by name, edge case friends with same name)
-					//view profile
+					//view profile (name, username, friends?)
 					//remove friend
 			//2: make friends
 				//search by name
