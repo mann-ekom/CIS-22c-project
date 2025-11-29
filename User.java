@@ -24,6 +24,15 @@ public class User {
         }
     }
 
+    public static final Comparator<User> ID_COMPARATOR = new Comparator<User>() {
+        @Override
+        public int compare(User a, User b) {
+            if (a.getID() == b.getID()) return 0;
+            else if (a.getID() > b.getID()) return 1;
+            else return -1;
+        }
+    }
+
     /**
      * Full constructor: takes everything from the file
      * plus a pre-built list of Interest objects.
