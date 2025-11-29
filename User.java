@@ -3,65 +3,61 @@ import java.util.Comparator;
 public class User {
     private int id;
     private String name;
-    private String username;
+    private String userName;
     private String password;
-    private int totalFriends;
-    private LinkedList<Integer> friendIds;
     private String city;
-    private int totalInterests;
-    private LinkedList<String> interestStrings;
     private BST<User> friendsByName;
     private LinkedList<Interest> interests;
 
-
+    /** Comparator for ordering Users by name, then username */
     public static final Comparator<User> NAME_COMPARATOR = new Comparator<User>() {
         @Override
         public int compare(User a, User b) {
             int cmp = a.name.compareToIgnoreCase(b.name);
             if (cmp != 0) return cmp;
-            return a.username.compareToIgnoreCase(b.username);
+            return a.userName.compareToIgnoreCase(b.userName);
         }
     };
 
-
-    public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests,LinkedList<String> interestStrings) {
+    public User(int id, String name,
+                String userName, String password, String city) {
         this.id = id;
         this.name = name;
-        this.username = username;
+        this.userName = userName;
         this.password = password;
-
-        this.totalFriends = totalFriends;
-        this.friendIds = (friendIds != null) ? new LinkedList<Integer>(friendIds) : new LinkedList<Integer>();
-
         this.city = city;
-
-        this.totalInterests = totalInterests;
-        this.interestStrings = (interestStrings != null) ? new LinkedList<String>(interestStrings) : new LinkedList<String>();
-
         this.friendsByName = new BST<User>();
         this.interests = new LinkedList<Interest>();
     }
 
+    public int getId() {
+        return id;
+    }
 
-    // GETTERS
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
+    public String getName() {
+        return name;
+    }
 
-    public int getTotalFriends() { return totalFriends; }
-    public LinkedList<Integer> getFriendIds() { return friendIds; }
+    public String getUserName() {
+        return userName;
+    }
 
-    public String getCity() { return city; }
+    public String getPassword() {
+        return password;
+    }
 
-    public int getTotalInterests() { return totalInterests; }
-    public LinkedList<String> getInterestStrings() { return interestStrings; }
+    public String getCity() {
+        return city;
+    }
 
-    public BST<User> getFriendsByName() { return friendsByName; }
-    public LinkedList<Interest> getInterests() { return interests; }
+    public BST<User> getFriendsByName() {
+        return friendsByName;
+    }
 
+    public LinkedList<Interest> getInterests() {
+        return interests;
+    }
 
-    // METHODS TO ADD PROCESSED DATA
     public void addFriend(User friend) {
         friendsByName.insert(friend, NAME_COMPARATOR);
     }
@@ -70,19 +66,19 @@ public class User {
         friendsByName.remove(friend, NAME_COMPARATOR);
     }
 
-    public void addConvertedInterest(Interest interest) {
+    public void addInterest(Interest interest) {
         interests.addLast(interest);
     }
 
     @Override
     public int hashCode() {
-        return username.toLowerCase().hashCode();
+        return userName.toLowerCase().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof User)) return false;
         User other = (User) obj;
-        return this.username.equalsIgnoreCase(other.username);
+        return this.userName.equalsIgnoreCase(other.userName);
     }
 }
