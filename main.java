@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class main{
 	BST<User> Users;
 	ArrayList<User> UserByIndex;
-  	Hashtable UserNames;
-  	HashTable Passwords;
+  	Hashtable<String> UserNames;
+  	HashTable<String> Passwords; //key for password is still the username
   	Graph UserConnections;
   	ArrayList<BST<User>> SharedInterest;
 	User currUser;
