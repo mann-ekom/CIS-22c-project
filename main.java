@@ -4,12 +4,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class main{
-	BST<User> Users;
-	ArrayList<User> UserByIndex;
-  	Hashtable<String> UserNames;
-  	HashTable<String> Passwords; //key for password is still the username
-  	Graph UserConnections;
-  	ArrayList<BST<User>> SharedInterest;
+	BST<User> users;
+	ArrayList<User> userByIndex;
+  	Hashtable<String> userNames;
+  	HashTable<String> passwords; //key for password is still the username
+  	Graph userConnections;
+  	ArrayList<BST<User>> sharedInterest;
 	User currUser;
   	
   	
@@ -66,10 +66,10 @@ public class main{
 	}
   	
 	private void makeGraph() {
-		userConnections = new Graph(UserByIndex.size() - 1);
+		userConnections = new Graph(userByIndex.size() - 1);
 		User current;
 		for (int i = 1; i <= userConnections.getNumVertices(); i++) {
-			current = UserByIndex.get(i);
+			current = userByIndex.get(i);
 			for(int j = 0; j < current.getFriendIds().getLength(); j++) {
 				current.getFriendIds().advanceIteratorToIndex(j);
 				userConnections.addDirectedEdge(i, current.getFriendIds().getIterator());
@@ -90,7 +90,7 @@ public class main{
   	private void MakeFile() {
 		File file = new File("UserData.txt");
 		try (PrintWriter writer = new PrintWriter(file)) {
-	        for (int i = 0; i < numUsers; i++) {
+	        for (int i = 0; i < users.getSize(); i++) {
 	        	writer.println(User.toString());
 	        }
 	    } catch (FileNotFoundException e) {
