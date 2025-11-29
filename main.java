@@ -38,7 +38,7 @@ public class main{
 		//make graph
 		makeGraph();
 		//add intersts to hash table
-		//creats an arraylist where each index is an BST of all people who share 1 interest
+		//creats an arraylist where each index is an BST of all people who share an interest
 	}
 
 	private void login() {
