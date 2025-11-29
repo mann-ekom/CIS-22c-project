@@ -90,6 +90,72 @@ public class User {
         return interests; 
     }
 
+     // ===== SETTERS =====
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        if (name == null) name = "";
+        this.name = name;
+    }
+
+    public void setUsername(String username) {
+        if (username == null) username = "";
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        if (password == null) password = "";
+        this.password = password;
+    }
+
+    public void setTotalFriends(int totalFriends) {
+        this.totalFriends = totalFriends;
+    }
+
+    public void setFriendIds(LinkedList<Integer> friendIds) {
+        if (friendIds == null) {
+            this.friendIds = new LinkedList<Integer>();
+        } else {
+            this.friendIds = new LinkedList<Integer>(friendIds);
+        }
+    }
+
+    public void setCity(String city) {
+        if (city == null) city = "";
+        this.city = city;
+    }
+
+    public void setTotalInterests(int totalInterests) {
+        this.totalInterests = totalInterests;
+    }
+
+    public void setInterestStrings(LinkedList<String> interestStrings) {
+        if (interestStrings == null) {
+            this.interestStrings = new LinkedList<String>();
+        } else {
+            this.interestStrings = new LinkedList<String>(interestStrings);
+        }
+    }
+
+    public void setFriendsByName(BST<User> friendsTree) {
+        if (friendsTree == null) {
+            this.friendsByName = new BST<User>();
+        } else {
+            this.friendsByName = friendsTree;
+        }
+    }
+
+    public void setInterests(LinkedList<Interest> interests) {
+        if (interests == null) {
+            this.interests = new LinkedList<Interest>();
+        } else {
+            this.interests = new LinkedList<Interest>(interests);
+        }
+    }
+    
     // ===== FRIEND & INTEREST HELPERS =====
     public void addFriend(User friend) {
         friendsByName.insert(friend, NAME_COMPARATOR);
