@@ -25,35 +25,27 @@ public class User {
     };
 
 
-    // ===== CONSTRUCTOR THAT MATCHES ENTIRE FILE EXACTLY =====
-    public User(int id,
-                String name,
-                String username,
-                String password,
-                int totalFriends,
-                LinkedList<Integer> friendIds,
-                String city,
-                int totalInterests,
-                LinkedList<String> interestStrings) {
-
+    
+    public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<String> interestStrings, BST<User> friendsByName, LinkedList<Interest> interests) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
-
         this.totalFriends = totalFriends;
         this.friendIds = (friendIds != null)
                 ? new LinkedList<Integer>(friendIds)
                 : new LinkedList<Integer>();
 
         this.city = city;
-
         this.totalInterests = totalInterests;
-        this.interestStrings = (interestStrings != null) ? new LinkedList<String>(interestStrings) : new LinkedList<String>();
+        this.interestStrings = (interestStrings != null)
+                ? new LinkedList<String>(interestStrings)
+                : new LinkedList<String>();
 
-        // For project requirements (NOT from file)
         this.friendsByName = new BST<User>();
         this.interests = new LinkedList<Interest>();
+        this.friendsByName = friendsByName;
+        this.interests = interests;
     }
 
 
