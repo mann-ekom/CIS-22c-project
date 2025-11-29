@@ -17,7 +17,9 @@ public class User {
         @Override
         public int compare(User a, User b) {
             int cmp = a.name.compareTo(b.name);
-            if (cmp != 0) return cmp;
+            if (cmp != 0) {
+                return cmp;
+            }
             return a.username.compareTo(b.username);
         }
     }
