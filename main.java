@@ -76,15 +76,52 @@ public class main{
 			}
 		}
 	}
-  
 
-
-	private LinkedList<User> getFriendRecomendations(User curr) {
-		int loc = curr.getId();
-		userConnections.BFS(loc);
+	
+	private ArrayList<User> getFriendRecomendations(User curr) {
+		//breath first search to find distances of all friends
+		userConnections.BFS(curr.getId());
 		
+		//starts recommendations based on BFS distances
+		//the user, their direct friends, and any unconnected people are not recommended
+		ArrayList<Double> recValues = new ArrayList(userByIndex.size());
+		recValues.add(-1.0);
+		for (int i = 1; i < userByIndex.size(); i++) {
+			if(userConnections.getDistance(i) > 1)
+				recValues.add((double) userConnections.getDistance(i));
+			else 
+				recValues.add(-1.0);
+		}
 		
-		return null;
+		//checks user's interests and makes people who share those interests recommended more
+		ID_COMPARATOR idCmp = new ID_COMPARATOR();
+		curr.getInterests().positionIterator();
+		while (!curr.getInterests().offEnd()) {
+			int currId = curr.getInterests().getIterator().getId();
+			 for (int i = 1; i < userByIndex.size(); i++) {
+				if(sharedInterest.get(currId).search(userByIndex.get(i), idCmp) != null) {
+					recValues.set(i, recValues.get(i) / 2);
+				}
+			 }
+		}
+		
+		//places recommended people in order
+		int recSize = 0;
+		for (int i = 1; i < recValues.size(); i++) {
+			if (recValues.get(i) > 0) recSize++;
+		}
+		ArrayList<User> recommend = new ArrayList(recSize);
+		for (int i = 0; i < recSize; i++) {
+			int tempIndex = 0;
+			for (int j = 1; j < recValues.size(); j++) {
+				if (recValues.get(j) > 0 && recValues.get(j) < recValues.get(tempIndex)) {
+					tempIndex = j;
+				}
+			}
+			recommend.add(userByIndex.get(tempIndex));
+			recValues.set(tempIndex, 0.0);
+		}
+		return recommend;
 	}
 	
   	private void MakeFile() {
