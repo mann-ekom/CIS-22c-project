@@ -40,7 +40,6 @@ public class User {
 
         this.friendsByName = new BST<User>();
         this.interests = new LinkedList<Interest>();
-        this.friendsByName = new BST<User>();
         this.interests = interests;
     }
 
