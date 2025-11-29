@@ -31,9 +31,7 @@ public class User {
         this.password = password;
 
         this.totalFriends = totalFriends;
-        this.friendIds = (friendIds != null)
-                ? new LinkedList<Integer>(friendIds)
-                : new LinkedList<Integer>();
+        this.friendIds = (friendIds != null) ? new LinkedList<Integer>(friendIds) : new LinkedList<Integer>();
 
         this.city = city;
 
