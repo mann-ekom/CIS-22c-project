@@ -15,7 +15,7 @@ public class main{
   	public static void main(String[] args) {
 		setup();
 		login();
-		//ask user for options
+		//ask user for options 1, 2, or 3 (1 and 2 will open sub options)
 			//1: view my friends 
 				// all friends (sort by name)
 				// search for friend (by name, edge case friends with same name)
