@@ -19,7 +19,7 @@ public class Interest {
     public boolean equals(Object obj) {
         if (!(obj instanceof Interest)) return false;
         Interest other = (Interest) obj;
-        return this.label.equalsIgnoreCase(other.label);
+        return this.label.equals(other.label);
     }
 
     @Override
