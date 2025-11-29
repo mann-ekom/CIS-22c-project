@@ -16,11 +16,11 @@ public class User {
     public static final Comparator<User> NAME_COMPARATOR = new Comparator<User>() {
         @Override
         public int compare(User a, User b) {
-            int cmp = a.name.compareToIgnoreCase(b.name);
+            int cmp = a.name.compareTo(b.name);
             if (cmp != 0) return cmp;
-            return a.username.compareToIgnoreCase(b.username);
+            return a.username.compareTo(b.username);
         }
-    };
+    }
 
     /**
      * Full constructor: takes everything from the file
