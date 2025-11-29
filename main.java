@@ -9,7 +9,7 @@ public class main{
   	Hashtable UserNames;
   	HashTable Passwords;
   	Graph UserConnections;
-  	ArrayList BST SharedInterest;
+  	ArrayList<BST<User>> SharedInterest;
 	User currUser;
   	
   	
