@@ -4,12 +4,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class main{
-	BST Users;
+	BST<User> Users;
 	ArrayList<User> UserByIndex;
   	Hashtable UserNames;
   	HashTable Passwords;
   	Graph UserConnections;
   	ArrayList BST SharedInterest;
+	User currUser;
   	
   	
   	public static void main(String[] args) {
