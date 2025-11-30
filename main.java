@@ -12,8 +12,7 @@ import java.util.Scanner;
 public class main{
 	static BST<User> users;
 	static ArrayList<User> userByIndex;
-	static HashTable<String> userNames;
-	static HashTable<String> passwords; //key for password is still the username
+	static HashTable<String, String> usernamePassword;
 	static Graph userConnections;
 	static ArrayList<BST<User>> usersByInterest;
 	static HashTable<Interest> interestMap;
@@ -254,11 +253,23 @@ public class main{
 
 	private static void login(){
 		Scanner sc = new Scanner(System.in);
-		try {
-			System.out.println("Please enter your username");
-		}
-		
-		
+	    System.out.print("Enter username: ");
+	    String inputUsername = sc.nextLine().trim();
+	    System.out.print("Enter password: ");
+	    String inputPassword = sc.nextLine();
+	    User tempUser = new User(inputUsername, null);
+	    if (!usernamePassword.contains(tempUser)) {
+	        System.out.println("Username not found.");
+			return;
+	    }
+		User storedUser = usernamePassWord.get(tempUser);
+		if (storedUser.getPassword().equals(inputPassword)) {
+	        System.out.println("Login successful! Welcome, " + storedUser.getUsername());
+	        currUser = storedUser;
+	    }
+		else {
+	        System.out.println("Incorrect password.");
+	    }
 	}
 
 	private static void createAccount(){
