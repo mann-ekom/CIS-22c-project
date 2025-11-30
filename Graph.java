@@ -218,4 +218,49 @@ public class Graph {
       }
       
    }
+   /**
+   * Depth-First Search over the whole graph.
+   * Initializes metadata and calls recursive Visit on each undiscovered vertex.
+   */
+   public void DFS() {
+      for (int i = 0; i < vertices; i++) {
+         color.set(i, 'W');
+         parent.set(i, 0);          // NIL represented as 0
+         discoverTime.set(i, -1);
+         finishTime.set(i, -1);
+      }
+      time = 0;
+         
+      for (int i = 0; i < vertices; i++) {
+         if (color.get(i) == 'W') {
+            visit(i); // pass 0-based index
+         }
+      }
+   }
+
+   /**
+    * Recursive visit routine for DFS.
+    * @param x 0-based index of vertex to visit
+    */
+   private void visit(int x) {
+      color.set(x, 'G');
+      discoverTime.set(x, ++time);
+      
+      LinkedList<Integer> currAdj = adj.get(x);
+      currAdj.positionIterator();
+      while (!currAdj.offEnd()) {
+         Integer yVertexNumber = currAdj.getIterator(); // y is 1..N (vertex number)
+         int yIndex = yVertexNumber - 1;                // convert to 0-based index
+         
+         if (color.get(yIndex) == 'W') {
+            // store parent as a 1-based vertex number to match BFS convention
+            parent.set(yIndex, x + 1);
+            visit(yIndex);
+         }
+         
+         currAdj.advanceIterator();
+      }
+      color.set(x, 'B');
+      finishTime.set(x, ++time);
+   }
 }
