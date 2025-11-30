@@ -7,6 +7,7 @@ import BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class main{
 	BST<User> users;
@@ -112,7 +113,7 @@ public class main{
 	// --------===========================================================================
 	public void runApp() {
     	loadData();
-
+		Scanner sc = new Scanner(System.in);
     	System.out.println("\n╔════════════════════════════════════════╗");
     	System.out.println("║   Welcome to the Social Network App    ║");
    		 System.out.println("╚════════════════════════════════════════╝");
@@ -124,7 +125,7 @@ public class main{
         	System.out.println("3. Quit");
         	System.out.print("Enter choice: ");
 
-        	String choice = scanner.nextLine().trim();
+        	String choice = sc.nextLine().trim();
 
         	switch (choice) {
             	case "1":
@@ -141,6 +142,7 @@ public class main{
                 	System.out.println("Invalid choice. Please try again.");
         	}
     	}
+		sc.close();
 	}
 
 
@@ -260,6 +262,11 @@ public class main{
 	
 
 	private void login(){
+		Scanner sc = new Scanne(System.in);
+		try {
+			System.out.println("Please enter your username");
+		}
+		
 		
 	}
 
