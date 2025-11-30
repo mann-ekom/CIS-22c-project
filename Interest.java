@@ -24,7 +24,11 @@ public class Interest {
 
     @Override
     public int hashCode() {
-        return label.hashCode();
+    	int code = 0;
+        for(int i = 0; i < label.length(); i++) {
+           code += (int) label.charAt(i);
+        }
+        return code;
     }
 
     @Override
