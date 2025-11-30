@@ -83,6 +83,20 @@ public class User {
         this.interests = new LinkedList<Interest>();
     }
     
+    public User(String username, String password) {
+        this.id = -1;
+        this.name = "";
+        this.username = username;
+        this.password = password;
+        this.totalFriends = 0;
+        this.friendIds = new LinkedList<Integer>();
+        this.city = "";
+        this.totalInterests = 0;
+        this.interestStrings = new LinkedList<String>();
+        this.friendsByName = new BST<User>();
+        this.interests = new LinkedList<Interest>();
+    }
+    
     public User(int id, String name, String username, String password, String city) {
     	this.id = id;
         this.name = name;
