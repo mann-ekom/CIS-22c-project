@@ -1,5 +1,13 @@
 import java.util.Comparator;
 
+class ID_COMPARATOR implements Comparator<User> {
+    public int compare(User a, User b) {
+        if (a.getId() == b.getId()) return 0;
+        else if (a.getId() > b.getId()) return 1;
+        else return -1;
+    }
+}
+
 public class User {
     private int id;                         
     private String name;                    
