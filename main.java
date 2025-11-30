@@ -182,9 +182,9 @@ public class main{
             	userData.password = lines.get(i++).trim();
             	userData.numFriends = Integer.parseInt(lines.get(i++).trim());
             
-            	userData.friendIds = new ArrayList<>();
+            	userData.friendIds = new LinkedList<>();
             	for (int j = 0; j < userData.numFriends; j++) {
-                	userData.friendIds.add(Integer.parseInt(lines.get(i++).trim()));
+                	userData.friendIds.addLast(Integer.parseInt(lines.get(i++).trim()));
             	}
             
             	userData.city = lines.get(i++).trim();
@@ -199,9 +199,17 @@ public class main{
         	}        
         
         	// Create all users
+        	userByIndex = new ArrayList<>();
+        	usersByInterest = new ArrayList<>();
+        	users = new BST<>();
+        	usernamePassword = new HashTable<>(100);
+        	interestMap = new HashTable<>(100);
+        	NAME_COMPARATOR nameCmp = new NAME_COMPARATOR();
+        	
         	for (UserData userData : userDataList) {
             	User user = new User(userData.id, userData.firstName + " " + userData.lastName,
                                  userData.username, userData.password, userData.city);
+        		user.setFriendIds(userData.friendIds);
             
             	// Ensure userById list is large enough
             	while (userByIndex.size() <= userData.id) {
@@ -209,8 +217,8 @@ public class main{
             	}
             	userByIndex.set(userData.id, user);
             
-            	//userCredentials.put(userData.username, user);
-            	//allUsers.insert(user);
+            	usernamePassword.add(userData.username + userData.password);
+            	users.insert(user, nameCmp);
             
             	// Process interests
             	for (String interestName : userData.interests) {
@@ -226,13 +234,21 @@ public class main{
                    		}
                 	}
                 	user.addInterest(interest);
-                	NAME_COMPARATOR nameCmp = new NAME_COMPARATOR();
                 	usersByInterest.get(interest.getId()).insert(user, nameCmp);
             	}
         	}
         
         	// Second pass: Add friendships
         	makeGraph();
+        	for (User user : userByIndex) {
+        		if(user != null) {
+        			user.getFriendIds().positionIterator();
+        			while (!user.getFriendIds().offEnd()) {
+        				user.addFriend(userByIndex.get(user.getFriendIds().getIterator()));
+        				user.getFriendIds().advanceIterator();
+        			}
+        		}
+        	}
         
         	System.out.println("Data loaded successfully! " + userDataList.size() + " users loaded.");
         
