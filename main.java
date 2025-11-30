@@ -10,13 +10,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class main{
-	BST<User> users;
-	ArrayList<User> userByIndex;
-  	Hashtable<String> userNames;
-  	HashTable<String> passwords; //key for password is still the username
-  	Graph userConnections;
-  	ArrayList<BST<User>> sharedInterest;
-	User currUser;
+	static BST<User> users;
+	static ArrayList<User> userByIndex;
+	static HashTable<String> userNames;
+	static HashTable<String> passwords; //key for password is still the username
+	static Graph userConnections;
+	static ArrayList<BST<User>> usersByInterest;
+	static HashTable<Interest> interestMap;
+	static User currUser;
   	
   	
   	public static void main(String[] args) {
@@ -39,7 +40,7 @@ public class main{
 				//MakeFile()
 	}
   	
-	private void makeGraph() {
+	private static void makeGraph() {
 		userConnections = new Graph(userByIndex.size() - 1);
 		User current;
 		for (int i = 1; i <= userConnections.getNumVertices(); i++) {
@@ -50,9 +51,8 @@ public class main{
 			}
 		}
 	}
-
 	
-	private ArrayList<User> getFriendRecomendations(User curr) {
+	private static ArrayList<User> getFriendRecomendations(User curr) {
 		//breath first search to find distances of all friends
 		userConnections.BFS(curr.getId());
 		
@@ -73,7 +73,7 @@ public class main{
 		while (!curr.getInterests().offEnd()) {
 			int currId = curr.getInterests().getIterator().getId();
 			 for (int i = 1; i < userByIndex.size(); i++) {
-				if(sharedInterest.get(currId).search(userByIndex.get(i), idCmp) != null) {
+				if(usersByInterest.get(currId).search(userByIndex.get(i), idCmp) != null) {
 					recValues.set(i, recValues.get(i) / 2);
 				}
 			 }
@@ -97,12 +97,12 @@ public class main{
 		}
 		return recommend;
 	}
-	
-  	private void MakeFile() {
+
+	private static void MakeFile() {
 		File file = new File("UserData.txt");
 		try (PrintWriter writer = new PrintWriter(file)) {
-	        for (int i = 0; i < users.getSize(); i++) {
-	        	writer.println(User.toString());
+	        for (int i = 1; i < userByIndex.size(); i++) {
+	        	writer.println(userByIndex.get(i).toString());
 	        }
 	    } catch (FileNotFoundException e) {
 	        e.printStackTrace();
@@ -147,8 +147,8 @@ public class main{
 
 
 
-   	public void loadData() {
- 		try (BufferedReader reader = new BufferedReader(new FileReader(DATA_FILE))) {
+   ublic static void loadData() {
+ 		try (BufferedReader reader = new BufferedReader(new FileReader("UserData.txt"))) {
         // First pass: Create all users and interests
         	List<String> lines = new ArrayList<>();
            	String line;
@@ -198,29 +198,28 @@ public class main{
             
             	userDataList.add(userData);
         	}        
-        	// Initialize graph with correct size
-       		friendNetwork = new Graph(userDataList.size());
         
         	// Create all users
         	for (UserData userData : userDataList) {
-            	User user = new User(userData.id, userData.firstName, userData.lastName,
+            	User user = new User(userData.id, userData.firstName + " " + userData.lastName,
                                  userData.username, userData.password, userData.city);
             
             	// Ensure userById list is large enough
-            	while (userById.size() <= userData.id) {
-               		userById.add(null);
+            	while (userByIndex.size() <= userData.id) {
+            		userByIndex.add(null);
             	}
-            	userById.set(userData.id, user);
+            	userByIndex.set(userData.id, user);
             
-            	userCredentials.put(userData.username, user);
-            	allUsers.insert(user);
+            	//userCredentials.put(userData.username, user);
+            	//allUsers.insert(user);
             
             	// Process interests
             	for (String interestName : userData.interests) {
-               		Interest interest = interestMap.get(interestName);
+            		Interest temp = new Interest(-1, interestName);
+               		Interest interest = interestMap.get(temp);
                 	if (interest == null) {
-                    	interest = new Interest(interestMap.getSize(), interestName);
-                    	interestMap.put(interestName, interest);
+                    	interest = new Interest(interestMap.getNumElements(), interestName);
+                    	interestMap.add(interest);
                     
                     	// Ensure usersByInterest list is large enough
                     	while (usersByInterest.size() <= interest.getId()) {
@@ -228,34 +227,26 @@ public class main{
                    		}
                 	}
                 	user.addInterest(interest);
-                	usersByInterest.get(interest.getId()).insert(user);
+                	NAME_COMPARATOR nameCmp = new NAME_COMPARATOR();
+                	usersByInterest.get(interest.getId()).insert(user, nameCmp);
             	}
         	}
         
         	// Second pass: Add friendships
-        	for (UserData userData : userDataList) {
-            	User user = userById.get(userData.id);
-            	for (int friendId : userData.friendIds) {
-                	User friend = userById.get(friendId);
-                	if (friend != null) {
-                   		user.addFriend(friend);
-                    	friendNetwork.addEdge(userData.id, friendId);
-                	}
-            	}
-        	}
+        	makeGraph();
         
         	System.out.println("Data loaded successfully! " + userDataList.size() + " users loaded.");
         
 		} catch (FileNotFoundException e) {
        		System.out.println("Data file not found. Starting with empty database.");
-        	friendNetwork = new Graph(100); // Default size
+       		userConnections = new Graph(100); // Default size
     	} catch (IOException e) {
         	System.out.println("Error reading data file: " + e.getMessage());
-        	friendNetwork = new Graph(100);
+        	userConnections = new Graph(100);
     	} catch (Exception e) {
         	System.out.println("Error parsing data: " + e.getMessage());
         	e.printStackTrace();
-        	friendNetwork = new Graph(100);
+        	userConnections = new Graph(100);
     	}
 	}
 
