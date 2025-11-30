@@ -284,5 +284,74 @@ public class main{
         int numInterests;
         ArrayList<String> interests;
     }
+
+	/**
+ 	 * User menu after login
+ 	 */
+	private void userMenu() {
+    	boolean loggedIn = true;
+    
+    	while (loggedIn) {
+        	System.out.println("\n" + currtUser.getDetailedProfile()); // Need help here: implement how to display the data of the current User?
+        	System.out.println("--- User Menu ---");
+        	System.out.println("1. View My Friends");
+        	System.out.println("2. Make New Friends");
+        	System.out.println("3. Logout");
+       		System.out.print("Enter choice: ");
+        
+        	String choice = scanner.nextLine().trim();
+        
+        	switch (choice) {
+            	case "1":
+                	viewFriendsMenu();
+                	continue;  
+            	case "2":
+                	makeNewFriendsMenu();
+                	continue;  
+            	case "3":
+                	loggedIn = false;
+               		System.out.println("Logged out successfully.");
+                	continue;  
+            	default:
+                	System.out.println("Invalid choice. Please try again.");
+                	// no need for continue here, loop continues naturally
+        	}
+    	}
+	}
+
+	/**
+ 	 * View Friends submenu
+	 */
+	private void viewFriendsMenu() {
+    	if (currUser.getFriendsByName().isEmpty()) {
+       		System.out.println("\nYou have no friends yet. Start making connections!");
+        	return;
+    	}
+    
+    	boolean back = false;
+    	while (!back) {
+        	System.out.println("\n--- View My Friends ---");
+        	System.out.println("1. View Friends Sorted by Name");
+        	System.out.println("2. Search by Friend Name");
+        	System.out.println("3. Back");
+        	System.out.print("Enter choice: ");
+        
+        	String choice = scanner.nextLine().trim();
+        
+        	switch (choice) {
+            	case "1":
+                	viewFriendsSorted();
+                	continue;  
+            	case "2":
+                	searchFriendByName();
+                	continue;  
+            	case "3":
+               		back = true;
+                	continue;  
+            	default:
+                System.out.println("Invalid choice. Please try again.");  
+        	}
+    	}
+	}
 			
 }
