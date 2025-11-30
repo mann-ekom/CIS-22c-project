@@ -257,6 +257,8 @@ public class main{
     	}
 	}
 
+	
+
 	private void login(){
 		
 	}
@@ -265,5 +267,24 @@ public class main{
 	}
 
 	
+
+
+	//---------Helper method----------------------
+	/**
+     * Helper class for user data during file loading
+     */
+    private static class UserData {
+        int id;
+        String name;
+        String firstName;
+        String lastName;
+        String username;
+		String password;
+        int numFriends;
+        ArrayList<Integer> friendIds;
+        String city;
+        int numInterests;
+        ArrayList<String> interests;
+    }
 			
 }
