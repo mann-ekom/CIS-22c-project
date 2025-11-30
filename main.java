@@ -14,9 +14,12 @@ public class main{
 	static ArrayList<User> userByIndex;
 	static HashTable<String> usernamePassword;
 	static Graph userConnections;
+	static HashTable<String> usernamePass
 	static ArrayList<BST<User>> usersByInterest;
 	static HashTable<Interest> interestMap;
+	static String [] interests;
 	static User currUser;
+	
   	
   	
   	public static void main(String[] args) {
@@ -270,12 +273,13 @@ public class main{
 
 	private static void login(){
 		Scanner sc = new Scanner(System.in);
-	    System.out.print("Enter username: ");
+	    System.out.println("Enter username:");
 	    String inputUsername = sc.nextLine().trim();
-	    System.out.print("Enter password: ");
+	    System.out.println("Enter password:");
 	    String inputPassword = sc.nextLine();
-	    User tempUser = new User(inputUsername, null);
-	    User storedUser = users.search(tempUser);
+	    User tempUser = new User(inputUsername, "");
+	    User storedUser = usernamePass.get(tempUser);
+		
 	    if (storedUser == null) {
 	        System.out.println("Username not found.");
 	    }
@@ -286,9 +290,147 @@ public class main{
 		else {
 	        System.out.println("Incorrect password.");
 	    }
+		sc.close();
+		
 	}
 
 	private static void createAccount(){
+    // master interest list
+	    String[] interestList = {
+	        "Fitness", "Philanthropy", "Motorsport", "Environment",
+	        "Social Justice", "Art", "Comedy", "Theater", "Martial Arts"
+	    };
+	
+	    Scanner sc = new Scanner(System.in);
+	
+	    System.out.println("Please enter your full name:");
+	    String fullName = sc.nextLine().trim();
+	
+	    // get username, ensure unique (check BST of users)
+	    System.out.println("Please type your desired username:");
+	    String username = sc.nextLine().trim();
+	
+	    // create temporary User used only for searching by username
+	    User tempUserForSearch = new User(username, null);
+	    while (users.search(tempUserForSearch) != null) {
+	        System.out.println("Sorry that username is already taken, please try again.");
+	        username = sc.nextLine().trim();
+	        tempUserForSearch = new User(username, null);
+	    }
+	
+	    System.out.println("Please type your password:");
+	    String password = sc.nextLine();
+	
+	    // select interests
+	    System.out.println("Please select your interests. Enter numbers one at a time.");
+	    System.out.println("Enter 0 when finished.\n");
+	
+	    // show numbered list
+	    for (int i = 0; i < interestList.length; i++) {
+	        System.out.printf("%d: %s%n", i + 1, interestList[i]);
+	    }
+	
+	    // collect chosen interest indices -> interest names
+	    ArrayList<String> chosenInterests = new ArrayList<>();
+	    while (true) {
+	        System.out.print("Choice (0 to finish): ");
+	        String line = sc.nextLine().trim();
+	        if (line.isEmpty()) {
+	            System.out.println("No input; try again.");
+	            continue;
+	        }
+	
+	        int choice;
+	        try {
+	            choice = Integer.parseInt(line);
+	        } catch (NumberFormatException e) {
+	            System.out.println("Invalid number. Please enter a number from the list or 0 to finish.");
+	            continue;
+	        }
+	
+	        if (choice == 0) break;
+	
+	        if (choice < 1 || choice > interestList.length) {
+	            System.out.println("Choice out of range. Try again.");
+	            continue;
+	        }
+	
+	        String interestName = interestList[choice - 1];
+	        if (!chosenInterests.contains(interestName)) {
+	            chosenInterests.add(interestName);
+	            System.out.println("Added: " + interestName);
+	        } else {
+	            System.out.println("You already selected " + interestName);
+	        }
+	    }
+	
+	    System.out.println("Please enter your hometown:");
+	    String city = sc.nextLine().trim();
+	
+	    // Determine a new user id.
+	    // If you maintain userByIndex (ArrayList<User>) use its size as next id.
+	    // Otherwise fall back to BST size + 1.
+	    int newId = -1;
+	    try {
+	        // try userByIndex if available
+	        newId = userByIndex.size();         // if userByIndex index starts at 0 and you want id starting at 1 adjust accordingly
+	    } catch (Exception e) {
+	        // fallback: use BST size + 1 (assumes users.getSize() exists)
+	        newId = users.getSize() + 1;
+	    }
+	
+	    // Build LinkedList<String> of interestStrings using your project's LinkedList class
+	    LinkedList<String> interestStringsLL = new LinkedList<>();
+	    for (String s : chosenInterests) {
+	        interestStringsLL.addLast(s);
+	    }
+	
+	    // Empty friend list; use your LinkedList<Integer> type
+	    LinkedList<Integer> friendIdsLL = new LinkedList<>();
+	
+	    // Create the full User using the constructor you provided:
+	    // User(int id, String name, String username, String password, int totalFriends,
+	    //      LinkedList<Integer> friendIds, String city, int totalInterests,
+	    //      LinkedList<String> interestStrings, LinkedList<Interest> interests)
+	    LinkedList<Interest> emptyInterests = new LinkedList<>(); // no Interest objects yet
+	    User newUser = new User(
+	        newId,
+	        fullName,
+	        username,
+	        password,
+	        0,                   // totalFriends
+	        friendIdsLL,
+	        city,
+	        interestStringsLL.getLength(), // totalInterests
+	        interestStringsLL,
+	        emptyInterests
+	    );
+	
+	    // Insert into BST of users
+	    users.insert(newUser);
+	
+	    // If you also keep an ArrayList userByIndex, ensure list large enough and set index
+	    try {
+	        while (userByIndex.size() <= newId) userByIndex.add(null);
+	        userByIndex.set(newId, newUser);
+	    } catch (Exception ignored) { /* no userByIndex in this project; ignore */ }
+	
+	    // If you keep a hash table of Users (HashTable<User>), add it there too:
+	    try {
+	        userTable.add(newUser); // rename userTable to your actual HashTable<User> field if you have it
+	    } catch (Exception ignored) { /* if you don't have a HashTable<User> field, ignore */ }
+	
+	    // If you keep a username->password hashtable/map, add mapping
+	    try {
+	        passwords.put(username, password); // if you have a Hashtable<String,String> passwords field
+	    } catch (Exception ignored) { /* ignore if passwords map not present */ }
+	
+	    // If you track Interests mapping (Interest objects), add creation / linking here:
+	    // For each interestString, you probably want to find/create the corresponding Interest object
+	    // and call newUser.addInterest(interest) and usersByInterest.get(interestId).insert(newUser).
+	    // That logic depends on how you store Interest objects in your project.
+	
+	    System.out.println("Account created successfully for " + fullName + " (" + username + ").");
 	}
 
 	
