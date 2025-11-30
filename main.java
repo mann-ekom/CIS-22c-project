@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class main{
 	static BST<User> users;
 	static ArrayList<User> userByIndex;
-	static HashTable<String, String> usernamePassword;
+	static HashTable<String> usernamePassword;
 	static Graph userConnections;
 	static ArrayList<BST<User>> usersByInterest;
 	static HashTable<Interest> interestMap;
@@ -306,7 +306,7 @@ public class main{
         String username;
 		String password;
         int numFriends;
-        ArrayList<Integer> friendIds;
+        LinkedList<Integer> friendIds;
         String city;
         int numInterests;
         ArrayList<String> interests;
