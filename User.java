@@ -8,6 +8,16 @@ class ID_COMPARATOR implements Comparator<User> {
     }
 }
 
+class NAME_COMPARATOR implements Comparator<User> {
+    public int compare(User a, User b) {
+        int cmp = a.getName().compareTo(b.getName());
+        if (cmp != 0) {
+            return cmp;
+        }
+        return a.getUsername().compareTo(b.getUsername());
+    }
+}
+
 public class User {
     private int id;                         
     private String name;                    
@@ -30,16 +40,16 @@ public class User {
             }
             return a.username.compareTo(b.username);
         }
-    }
+    };
 
     public static final Comparator<User> ID_COMPARATOR = new Comparator<User>() {
         @Override
         public int compare(User a, User b) {
-            if (a.getID() == b.getID()) return 0;
-            else if (a.getID() > b.getID()) return 1;
+            if (a.getId() == b.getId()) return 0;
+            else if (a.getId() > b.getId()) return 1;
             else return -1;
         }
-    }
+    };
 
     /**
      * Full constructor: takes everything from the file
@@ -59,6 +69,33 @@ public class User {
         this.interests = new LinkedList<Interest>();
     }
     
+    public User(int id) {
+        this.id = id;
+        this.name = "";
+        this.username = "";
+        this.password = "";
+        this.totalFriends = 0;
+        this.friendIds = new LinkedList<Integer>();
+        this.city = "";
+        this.totalInterests = 0;
+        this.interestStrings = new LinkedList<String>();
+        this.friendsByName = new BST<User>();
+        this.interests = new LinkedList<Interest>();
+    }
+    
+    public User(int id, String name, String username, String password, String city) {
+    	this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.totalFriends = 0;
+        this.friendIds =  new LinkedList<Integer>();
+        this.city = city;
+        this.totalInterests = 0;
+        this.interestStrings = new LinkedList<String>();
+        this.friendsByName = new BST<User>();
+        this.interests = new LinkedList<Interest>();
+    }
     public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<String> interestStrings, LinkedList<Interest> interests) {
         this.id = id;
         this.name = name;
@@ -173,6 +210,10 @@ public class User {
         } else {
             this.interests = new LinkedList<Interest>(interests);
         }
+    }
+    
+    public void addInterest(Interest interest) {
+    	this.interests.addLast(interest);
     }
     
     // ===== FRIEND & INTEREST HELPERS =====
