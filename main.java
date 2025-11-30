@@ -22,8 +22,6 @@ public class main{
 		
 		runApp();
 		
-		setup();
-		login();
 		//ask user for options 1, 2, or 3 (1 and 2 will open sub options)
 			//1: view my friends 
 				// all friends (sort by name)
@@ -34,44 +32,10 @@ public class main{
 				//search by name
 				//search by interest
 				//get recomended friends (mason is working on this)
-					getFriendRecomendations(currUser)
+					//getFriendRecomendations(currUser)
 			//3: exit
 				//write users data back to file
-				MakeFile()
-	}
-  	
-  	private void setup() {
-		//read file
-		//make Users
-		//add Users to BST and ArrayList
-		//add usernames and passwords to hashtables
-		//make graph
-		makeGraph();
-		//add intersts to hash table
-		//creats an arraylist where each index is an interest, and in each bucket is BST of all people who share that interest
-	}
-
-	private void login() {
-		//scans for username and password
-		//search for username in hash table
-		
-		//if not exist create new user
-		newUser( userName, password);
-		//set current user to new user
-		
-		//if exists check for password match
-		//if password not match re ask password?
-		//if password match set current user to user
-	}
-
-	private void newUser(String userName, String password) {
-		//ask for name
-		//ask for interests
-		//check if interests exist and add stuff acordingly
-		//create new user
-		//add to BST, ArrayLists and Hash tables
-		//redo graph
-		makeGraph();
+				//MakeFile()
 	}
   	
 	private void makeGraph() {
