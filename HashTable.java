@@ -103,6 +103,20 @@ public class HashTable<T> {
       bucket.advanceIteratorToIndex(nodeNum);
       return bucket.getIterator();
    }
+
+   public T get(T key, T elem) throws NullPointerException {
+      if (elem == null) {
+         throw new NullPointerException("get(): Element cannot be null");
+      }
+      int index = hash(key);
+      LinkedList<T> bucket = table.get(index);
+      int nodeNum = bucket.findIndex(elem);
+      if (nodeNum == -1) {
+         return null;
+      }
+      bucket.advanceIteratorToIndex(nodeNum);
+      return bucket.getIterator();
+   }
    
    /**
    * Counts the number of elements at this index
@@ -145,6 +159,14 @@ public class HashTable<T> {
          throw new NullPointerException("add(): Element cannot be null");
       }
       table.get(hash(elem)).addLast(elem);
+      numElements++;
+   }
+
+   public void add(T key, T elem) throws NullPointerException {
+      if (elem == null || key == null) {
+         throw new NullPointerException("add(): Element cannot be null");
+      }
+      table.get(hash(key)).addLast(elem);
       numElements++;
    }
    
