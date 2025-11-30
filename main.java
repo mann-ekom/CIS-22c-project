@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import BufferedReader; 
+import java.io.BufferedReader; 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -111,7 +111,7 @@ public class main{
 	}
 
 	// --------===========================================================================
-	public void runApp() {
+	public static void runApp() {
     	loadData();
 		Scanner sc = new Scanner(System.in);
     	System.out.println("\n╔════════════════════════════════════════╗");
@@ -147,7 +147,7 @@ public class main{
 
 
 
-   ublic static void loadData() {
+   public static void loadData() {
  		try (BufferedReader reader = new BufferedReader(new FileReader("UserData.txt"))) {
         // First pass: Create all users and interests
         	List<String> lines = new ArrayList<>();
