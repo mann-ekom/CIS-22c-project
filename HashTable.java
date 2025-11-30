@@ -56,7 +56,7 @@ public class HashTable<T> {
    * @return value in the hash value in the table for the given object
    */
    private int hash(T obj) {
-      return obj.hashCode() % table.size();
+      return Math.abs(obj.hashCode()) % table.size();
    }
    
    /**
