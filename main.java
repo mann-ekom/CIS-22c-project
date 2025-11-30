@@ -135,7 +135,7 @@ public class main{
                 	createAccount();
                 	continue;
             	case "3":
-                	saveData();
+                	makeFile();
                 	System.out.println("Goodbye!");
                 	return;   
             	default:
@@ -252,8 +252,8 @@ public class main{
 
 	
 
-	private void login(){
-		Scanner sc = new Scanne(System.in);
+	private static void login(){
+		Scanner sc = new Scanner(System.in);
 		try {
 			System.out.println("Please enter your username");
 		}
@@ -261,7 +261,7 @@ public class main{
 		
 	}
 
-	private void createAccount(){
+	private static void createAccount(){
 	}
 
 	
