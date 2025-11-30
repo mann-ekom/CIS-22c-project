@@ -135,13 +135,14 @@ public class main{
                 	continue;
             	case "3":
                 	makeFile();
+					sc.close();
                 	System.out.println("Goodbye!");
                 	return;   
             	default:
                 	System.out.println("Invalid choice. Please try again.");
         	}
     	}
-		sc.close();
+		
 	}
 
 
