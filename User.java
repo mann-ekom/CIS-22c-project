@@ -288,11 +288,11 @@ public class User {
         // total number of interests
         sb.append(totalInterests).append("\n");
         // list of interests, each on a separate line
-        if (interestStrings != null) {
-            interestStrings.positionIterator();
-            while (!interestStrings.offEnd()) {
-                sb.append(interestStrings.getIterator()).append("\n");
-                interestStrings.advanceIterator();
+        if (interests != null) {
+            interests.positionIterator();
+            while (!interests.offEnd()) {
+                sb.append(interests.getIterator().getLabel()).append("\n");
+                interest.advanceIterator();
             }
         }
         return sb.toString();
