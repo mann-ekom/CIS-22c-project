@@ -259,4 +259,40 @@ public class User {
         User other = (User) obj;
         return this.name.equals(other.name);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        // id
+        sb.append(id).append("\n");
+        // name
+        sb.append(name).append("\n");
+        // username
+        sb.append(username).append("\n");
+        // password
+        sb.append(password).append("\n");
+        // total number of friends
+        sb.append(totalFriends).append("\n");
+        // list of ids of all friends on separate lines
+        if (friendIds != null) {
+            friendIds.positionIterator();
+            while (!friendIds.offEnd()) {
+                sb.append(friendIds.getIterator()).append("\n");
+                friendIds.advanceIterator();
+            }
+        }
+        // city
+        sb.append(city).append("\n");
+        // total number of interests
+        sb.append(totalInterests).append("\n");
+        // list of interests, each on a separate line
+        if (interestStrings != null) {
+            interestStrings.positionIterator();
+            while (!interestStrings.offEnd()) {
+                sb.append(interestStrings.getIterator()).append("\n");
+                interestStrings.advanceIterator();
+            }
+        }
+        return sb.toString();
+    }
 }
