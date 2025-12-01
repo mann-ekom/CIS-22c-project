@@ -417,6 +417,12 @@ public class main{
 	
 	    // Insert into BST of users
 	    users.insert(newUser, nameCmp);
+
+		newUser.getInterests().positionIterator();
+	    while (!newUser.getInterests().offEnd()) {
+	    	usersByInterest.get(interestMap.get(newUser.getInterests().getIterator()).getId()).insert(newUser, nameCmp);
+	    	newUser.getInterests().advanceIterator();
+	    }
 	
 	    // If you also keep an ArrayList userByIndex, ensure list large enough and set index
 	    try {
