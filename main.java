@@ -53,13 +53,12 @@ public class main{
 		}
 	}
 	
-	private static ArrayList<User> getFriendRecomendations(User curr) {
+	private static ArrayList<User> getFriendRecommendations(User curr) {
 		//breath first search to find distances of all friends
 		userConnections.BFS(curr.getId());
-		
 		//starts recommendations based on BFS distances
 		//the user, their direct friends, and any unconnected people are not recommended
-		ArrayList<Double> recValues = new ArrayList(userByIndex.size());
+		ArrayList<Double> recValues = new ArrayList<>(userByIndex.size());
 		recValues.add(-1.0);
 		for (int i = 1; i < userByIndex.size(); i++) {
 			if(userConnections.getDistance(i) > 1)
@@ -67,7 +66,6 @@ public class main{
 			else 
 				recValues.add(-1.0);
 		}
-		
 		//checks user's interests and makes people who share those interests recommended more
 		ID_COMPARATOR idCmp = new ID_COMPARATOR();
 		curr.getInterests().positionIterator();
@@ -78,6 +76,7 @@ public class main{
 					recValues.set(i, recValues.get(i) / 2);
 				}
 			 }
+			 curr.getInterests().advanceIterator();
 		}
 		
 		//places recommended people in order
@@ -85,12 +84,18 @@ public class main{
 		for (int i = 1; i < recValues.size(); i++) {
 			if (recValues.get(i) > 0) recSize++;
 		}
-		ArrayList<User> recommend = new ArrayList(recSize);
+		ArrayList<User> recommend = new ArrayList<>(recSize);
 		for (int i = 0; i < recSize; i++) {
 			int tempIndex = 0;
 			for (int j = 1; j < recValues.size(); j++) {
-				if (recValues.get(j) > 0 && recValues.get(j) < recValues.get(tempIndex)) {
-					tempIndex = j;
+				if (recValues.get(tempIndex) > 0) {
+					if (recValues.get(j) > 0 && recValues.get(j) < recValues.get(tempIndex)) {
+						tempIndex = j;
+					}
+				} else {
+					if (recValues.get(j) > 0) {
+						tempIndex = j;
+					}
 				}
 			}
 			recommend.add(userByIndex.get(tempIndex));
@@ -594,5 +599,40 @@ public class main{
 	}
 
 	public static void viewFriendsSorted() {
+	}
+
+	public static void addFriendsByRecommendation() {
+		Scanner sc = new Scanner(System.in);
+		ArrayList<User> recomend = getFriendRecommendations(currUser);
+		System.out.println("Here are some people we think could be your friends:");
+		for (int i = 1; i <= recomend.size(); i++) {
+			System.out.print(i + ": ");
+			System.out.println(recomend.get(i).getName());
+			System.out.println(recomend.get(i).getUsername() + "\n");
+		}
+		System.out.println("Enter the number of the friend you wish to add or 0 to return");
+		String choice = sc.nextLine().trim();
+		int choiceInt;
+		try {
+			choiceInt = Integer.parseInt(choice);
+			if (choiceInt == 0) {
+				return;
+			} else if (choiceInt >= recomend.size() || choiceInt < 0) {
+				System.out.println("Invalid input. Returning");
+				return;
+			} else {
+				addFriend(recomend.get(choiceInt));
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Invalid input. Returning");
+			return;
+		}
+	}
+	
+	public static void addFriend(User friend) {
+		currUser.addFriend(friend);
+		int id1 = currUser.getId();
+		int id2 = friend.getId();
+		userConnections.addDirectedEdge(id1, id2);
 	}
 }
