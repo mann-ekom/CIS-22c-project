@@ -13,7 +13,7 @@ public class main{
 	static BST<User> users;
 	static ArrayList<User> userByIndex;
 	static Graph userConnections;
-	static HashTable<String> usernamePass;
+	static HashTable<User> usernamePass;
 	static ArrayList<BST<User>> usersByInterest;
 	static HashTable<Interest> interestMap;
 	static String [] interests;
@@ -114,20 +114,24 @@ public class main{
 	// --------===========================================================================
 	public static void runApp() {
     	loadData();
-		Scanner sc = new Scanner(System.in);
+		
     	System.out.println("\n╔════════════════════════════════════════╗");
     	System.out.println("║   Welcome to the Social Network App    ║");
    		 System.out.println("╚════════════════════════════════════════╝");
 
-    	while (true) {   
+    	while (true) {  
+    		Scanner sc = new Scanner(System.in);
         	System.out.println("\n--- Main Menu ---");
         	System.out.println("1. Login");
         	System.out.println("2. Create New Account");
         	System.out.println("3. Quit");
         	System.out.print("Enter choice: ");
-
+        	
+        	
+	        //System.out.println(usernamePass.toString());
+	       
         	String choice = sc.nextLine().trim();
-
+        	
         	switch (choice) {
             	case "1":
                 	login();
@@ -136,7 +140,7 @@ public class main{
                 	createAccount();
                 	continue;
             	case "3":
-                	makeFile();
+                	//MakeFile();
 					sc.close();
                 	System.out.println("Goodbye!");
                 	return;   
@@ -205,7 +209,7 @@ public class main{
         	userByIndex = new ArrayList<>();
         	usersByInterest = new ArrayList<>();
         	users = new BST<>();
-        	usernamePassword = new HashTable<>(100);
+        	usernamePass = new HashTable<>(100);
         	interestMap = new HashTable<>(100);
         	NAME_COMPARATOR nameCmp = new NAME_COMPARATOR();
         	
@@ -220,7 +224,7 @@ public class main{
             	}
             	userByIndex.set(userData.id, user);
             
-            	usernamePassword.add(userData.username + userData.password);
+            	usernamePass.add(user);
             	users.insert(user, nameCmp);
             
             	// Process interests
@@ -274,28 +278,29 @@ public class main{
 		Scanner sc = new Scanner(System.in);
 	    System.out.println("Enter username:");
 	    String inputUsername = sc.nextLine().trim();
-	    
+	    System.out.println("Enter password:");
+	    String inputPassword = sc.nextLine().trim();
 	    User tempUser = new User(inputUsername, "");
 	    User storedUser = usernamePass.get(tempUser);
+	    
+	    System.out.println(storedUser.toString());
 		
 	    if (storedUser == null) {
 	        System.out.println("Username not found.");
 	    }
-		System.out.println("Enter password:");
-	    String inputPassword = sc.nextLine();
 		else if (storedUser.getPassword().equals(inputPassword)) {
 	        System.out.println("Login successful! Welcome, " + storedUser.getName() + "!");
 	        currUser = storedUser;
+	        userMenu();
 		}
 		else {
 	        System.out.println("Incorrect password.");
 	    }
-		sc.close();
-		
 	}
 
 	private static void createAccount(){
     // master interest list
+		NAME_COMPARATOR nameCmp = new NAME_COMPARATOR();
 	    String[] interestList = {
 	        "Fitness", "Philanthropy", "Motorsport", "Environment",
 	        "Social Justice", "Art", "Comedy", "Theater", "Martial Arts"
@@ -312,7 +317,7 @@ public class main{
 	
 	    // create temporary User used only for searching by username
 	    User tempUserForSearch = new User(username, null);
-	    while (users.search(tempUserForSearch) != null) {
+	    while (users.search(tempUserForSearch, nameCmp) != null) {
 	        System.out.println("Sorry that username is already taken, please try again.");
 	        username = sc.nextLine().trim();
 	        tempUserForSearch = new User(username, null);
@@ -367,8 +372,19 @@ public class main{
 	    System.out.println("Please enter your hometown:");
 	    String city = sc.nextLine().trim();
 	
-	    int newId =	newId = userByIndex.size() + 1;
+	    // Determine a new user id.
+	    // If you maintain userByIndex (ArrayList<User>) use its size as next id.
+	    // Otherwise fall back to BST size + 1.
+	    int newId = -1;
+	    try {
+	        // try userByIndex if available
+	        newId = userByIndex.size();         // if userByIndex index starts at 0 and you want id starting at 1 adjust accordingly
+	    } catch (Exception e) {
+	        // fallback: use BST size + 1 (assumes users.getSize() exists)
+	        newId = users.getSize() + 1;
+	    }
 	
+	    // Build LinkedList<String> of interestStrings using your project's LinkedList class
 	    LinkedList<String> interestStringsLL = new LinkedList<>();
 	    for (String s : chosenInterests) {
 	        interestStringsLL.addLast(s);
@@ -377,6 +393,15 @@ public class main{
 	    // Empty friend list; use your LinkedList<Integer> type
 	    LinkedList<Integer> friendIdsLL = new LinkedList<>();
 	
+	    // Create the full User using the constructor you provided:
+	    // User(int id, String name, String username, String password, int totalFriends,
+	    //      LinkedList<Integer> friendIds, String city, int totalInterests,
+	    //      LinkedList<String> interestStrings, LinkedList<Interest> interests)
+	    LinkedList<Interest> interestsLL = new LinkedList<>(); // no Interest objects yet
+	    for (String s : chosenInterests) {
+	    	Interest tempinterest = new Interest(-1, s);
+	    	interestsLL.addLast(interestMap.get(tempinterest));
+	    }
 	    User newUser = new User(
 	        newId,
 	        fullName,
@@ -386,14 +411,31 @@ public class main{
 	        friendIdsLL,
 	        city,
 	        interestStringsLL.getLength(), // totalInterests
-	        interestStringsLL
+	        interestStringsLL,
+	        interestsLL
 	    );
 	
-	    users.insert(newUser);
-	    usernamePass.add(newUser);
+	    // Insert into BST of users
+	    users.insert(newUser, nameCmp);
+	
+	    // If you also keep an ArrayList userByIndex, ensure list large enough and set index
+	    try {
+	        while (userByIndex.size() <= newId) userByIndex.add(null);
+	        userByIndex.set(newId, newUser);
+	    } catch (Exception ignored) { /* no userByIndex in this project; ignore */ }
+	
+	    // If you keep a hash table of Users (HashTable<User>), add it there too:
+	    try {
+	        usernamePass.add(newUser); // rename userTable to your actual HashTable<User> field if you have it
+	    } catch (Exception ignored) { /* if you don't have a HashTable<User> field, ignore */ }
+	
+	
+	    // If you track Interests mapping (Interest objects), add creation / linking here:
+	    // For each interestString, you probably want to find/create the corresponding Interest object
+	    // and call newUser.addInterest(interest) and usersByInterest.get(interestId).insert(newUser).
+	    // That logic depends on how you store Interest objects in your project.
 	
 	    System.out.println("Account created successfully for " + fullName + " (" + username + ").");
-		sc.close();
 	}
 
 	
@@ -420,25 +462,26 @@ public class main{
 	/**
  	 * User menu after login
  	 */
-	private void userMenu() {
+	private static void userMenu() {
     	boolean loggedIn = true;
     
     	while (loggedIn) {
-        	System.out.println("\n" + currtUser.getDetailedProfile()); // Need help here: implement how to display the data of the current User?
+    		Scanner sc = new Scanner(System.in);
+        	//System.out.println("\n" + currUser.getDetailedProfile()); // Need help here: implement how to display the data of the current User?
         	System.out.println("--- User Menu ---");
         	System.out.println("1. View My Friends");
         	System.out.println("2. Make New Friends");
         	System.out.println("3. Logout");
        		System.out.print("Enter choice: ");
         
-        	String choice = scanner.nextLine().trim();
+        	String choice = sc.nextLine().trim();
         
         	switch (choice) {
             	case "1":
                 	viewFriendsMenu();
                 	continue;  
             	case "2":
-                	makeNewFriendsMenu();
+                	//makeNewFriendsMenu();
                 	continue;  
             	case "3":
                 	loggedIn = false;
@@ -454,7 +497,7 @@ public class main{
 	/**
  	 * View Friends submenu
 	 */
-	private void viewFriendsMenu() {
+	private static void viewFriendsMenu() {
     	if (currUser.getFriendsByName().isEmpty()) {
        		System.out.println("\nYou have no friends yet. Start making connections!");
         	return;
@@ -462,20 +505,21 @@ public class main{
     
     	boolean back = false;
     	while (!back) {
+    		Scanner sc = new Scanner(System.in);
         	System.out.println("\n--- View My Friends ---");
         	System.out.println("1. View Friends Sorted by Name");
         	System.out.println("2. Search by Friend Name");
         	System.out.println("3. Back");
         	System.out.print("Enter choice: ");
         
-        	String choice = scanner.nextLine().trim();
+        	String choice = sc.nextLine().trim();
         
         	switch (choice) {
             	case "1":
-                	viewFriendsSorted();
+                	//viewFriendsSorted();
                 	continue;  
             	case "2":
-                	searchFriendByName();
+                	//searchFriendByName();
                 	continue;  
             	case "3":
                		back = true;
