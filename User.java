@@ -110,7 +110,7 @@ public class User {
         this.friendsByName = new BST<User>();
         this.interests = new LinkedList<Interest>();
     }
-    public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<String> interestStrings, LinkedList<Interest> interests) {
+    public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<Interest> interests) {
         this.id = id;
         this.name = name;
         this.username = username;
