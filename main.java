@@ -367,19 +367,8 @@ public class main{
 	    System.out.println("Please enter your hometown:");
 	    String city = sc.nextLine().trim();
 	
-	    // Determine a new user id.
-	    // If you maintain userByIndex (ArrayList<User>) use its size as next id.
-	    // Otherwise fall back to BST size + 1.
-	    int newId = 0;
-	    try {
-	        // try userByIndex if available
-	        newId = userByIndex.size();         // if userByIndex index starts at 0 and you want id starting at 1 adjust accordingly
-	    } catch (Exception e) {
-	        // fallback: use BST size + 1 (assumes users.getSize() exists)
-	        newId = users.getSize() + 1;
-	    }
+	    int newId =	newId = userByIndex.size() + 1;
 	
-	    // Build LinkedList<String> of interestStrings using your project's LinkedList class
 	    LinkedList<String> interestStringsLL = new LinkedList<>();
 	    for (String s : chosenInterests) {
 	        interestStringsLL.addLast(s);
@@ -388,11 +377,6 @@ public class main{
 	    // Empty friend list; use your LinkedList<Integer> type
 	    LinkedList<Integer> friendIdsLL = new LinkedList<>();
 	
-	    // Create the full User using the constructor you provided:
-	    // User(int id, String name, String username, String password, int totalFriends,
-	    //      LinkedList<Integer> friendIds, String city, int totalInterests,
-	    //      LinkedList<String> interestStrings, LinkedList<Interest> interests)
-	    LinkedList<Interest> emptyInterests = new LinkedList<>(); // no Interest objects yet
 	    User newUser = new User(
 	        newId,
 	        fullName,
@@ -406,31 +390,11 @@ public class main{
 	        emptyInterests
 	    );
 	
-	    // Insert into BST of users
 	    users.insert(newUser);
-	
-	    // If you also keep an ArrayList userByIndex, ensure list large enough and set index
-	    try {
-	        while (userByIndex.size() <= newId) userByIndex.add(null);
-	        userByIndex.set(newId, newUser);
-	    } catch (Exception ignored) { /* no userByIndex in this project; ignore */ }
-	
-	    // If you keep a hash table of Users (HashTable<User>), add it there too:
-	    try {
-	        userTable.add(newUser); // rename userTable to your actual HashTable<User> field if you have it
-	    } catch (Exception ignored) { /* if you don't have a HashTable<User> field, ignore */ }
-	
-	    // If you keep a username->password hashtable/map, add mapping
-	    try {
-	        passwords.put(username, password); // if you have a Hashtable<String,String> passwords field
-	    } catch (Exception ignored) { /* ignore if passwords map not present */ }
-	
-	    // If you track Interests mapping (Interest objects), add creation / linking here:
-	    // For each interestString, you probably want to find/create the corresponding Interest object
-	    // and call newUser.addInterest(interest) and usersByInterest.get(interestId).insert(newUser).
-	    // That logic depends on how you store Interest objects in your project.
+	    usernamePass.add(newUser);
 	
 	    System.out.println("Account created successfully for " + fullName + " (" + username + ").");
+		sc.close();
 	}
 
 	
