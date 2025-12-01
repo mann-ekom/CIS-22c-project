@@ -529,5 +529,37 @@ public class main{
         	}
     	}
 	}
+
+	public static void makeNewFriendsMenu() {
+		Scanner sc = new Scanner(System.in);
+		boolean back = false;
+    	while (!back) {
+        	System.out.println("\n--- Make New Friends ---");
+        	System.out.println("1. Search for Users by name");
+        	System.out.println("2. Search Users by Interests");
+        	System.out.println("3. Get Friend Recomendations");
+        	System.out.println("4. Back");
+        	System.out.print("Enter choice: ");
+        
+        	String choice = sc.nextLine().trim();
+        
+        	switch (choice) {
+            	case "1":
+                	//addFriendsByName();
+                	continue;  
+            	case "2":
+                	//addFriendsByInterest();
+                	continue;
+            	case "3":
+                	//addFriendsByRecomendation();
+                	continue;  
+            	case "4":
+               		back = true;
+                	continue;  
+            	default:
+                System.out.println("Invalid choice. Please try again.");  
+        	}
+    	}
+	}
 			
 }
