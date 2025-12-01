@@ -208,6 +208,39 @@ public class BST<T> {
          return search(data, node.right, cmp);
       }
    }
+
+    /**
+   * Searches for a specified value in the tree
+   * @param data the value to search for
+   * @param cmp the Comparator that indicates the way the data in the tree is ordered
+   * @return the data stored in that Node of the tree, otherwise null
+   */
+   public T search2(T data, Comparator <T> cmp) {
+      remove(data, cmp);
+      return search2(data, root, cmp);
+   }
+   
+   /**
+   * Recursive helper for the search method
+   * @param data the value to search for
+   * @param node the current node to check
+   * @param cmp the Comparator that indicates the way the data in the tree is ordered
+   * @return the data stored in that Node of the tree, otherwise null
+   */
+   private T search2(T data, Node node, Comparator <T> cmp) {
+      if(node == null) {
+         return null;
+      }
+      if(cmp.compare(node.data, data) == 0) {
+         return node.data;
+      }
+      else if(cmp.compare(node.data, data) > 0) {
+         return search2(data, node.left, cmp);
+      }
+      else {
+         return search2(data, node.right, cmp);
+      }
+   }
    
    /***MUTATORS***/
    
