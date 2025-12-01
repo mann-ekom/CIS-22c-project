@@ -228,11 +228,13 @@ public class User {
     
     public void addInterest(Interest interest) {
     	this.interests.addLast(interest);
+        totalInterests++;
     }
     
     // ===== FRIEND & INTEREST HELPERS =====
     public void addFriend(User friend) {
         friendsByName.insert(friend, NAME_COMPARATOR);
+        totalFriends++;
     }
 
     public void removeFriend(User friend) {
