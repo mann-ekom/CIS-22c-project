@@ -538,7 +538,7 @@ public class main{
         	System.out.println("1. Search for Users by name");
         	System.out.println("2. Search Users by Interests");
         	System.out.println("3. Get Friend Recomendations");
-        	System.out.println("4. Back");
+        	System.out.println("4. Back");m
         	System.out.print("Enter choice: ");
         
         	String choice = sc.nextLine().trim();
@@ -551,7 +551,7 @@ public class main{
                 	//addFriendsByInterest();
                 	continue;
             	case "3":
-                	//addFriendsByRecomendation();
+                	//addFriendsByRecommendation();
                 	continue;  
             	case "4":
                		back = true;
