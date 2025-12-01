@@ -12,9 +12,8 @@ import java.util.Scanner;
 public class main{
 	static BST<User> users;
 	static ArrayList<User> userByIndex;
-	static HashTable<String> usernamePassword;
 	static Graph userConnections;
-	static HashTable<String> usernamePass
+	static HashTable<String> usernamePass;
 	static ArrayList<BST<User>> usersByInterest;
 	static HashTable<Interest> interestMap;
 	static String [] interests;
