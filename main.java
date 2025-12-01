@@ -274,14 +274,15 @@ public class main{
 		Scanner sc = new Scanner(System.in);
 	    System.out.println("Enter username:");
 	    String inputUsername = sc.nextLine().trim();
-	    System.out.println("Enter password:");
-	    String inputPassword = sc.nextLine();
+	    
 	    User tempUser = new User(inputUsername, "");
 	    User storedUser = usernamePass.get(tempUser);
 		
 	    if (storedUser == null) {
 	        System.out.println("Username not found.");
 	    }
+		System.out.println("Enter password:");
+	    String inputPassword = sc.nextLine();
 		else if (storedUser.getPassword().equals(inputPassword)) {
 	        System.out.println("Login successful! Welcome, " + storedUser.getName() + "!");
 	        currUser = storedUser;
