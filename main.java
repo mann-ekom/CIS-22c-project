@@ -277,7 +277,7 @@ public class main{
 	    System.out.println("Enter password:");
 	    String inputPassword = sc.nextLine();
 	    User tempUser = new User(inputUsername, "");
-	    User storedUser = usernamePass.search(tempUser);
+	    User storedUser = usernamePass.get(tempUser);
 		
 	    if (storedUser == null) {
 	        System.out.println("Username not found.");
