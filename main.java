@@ -484,7 +484,7 @@ public class main{
         
         	switch (choice) {
             	case "1":
-                	viewFriendsMenu();
+                	//viewFriendsMenu();
                 	continue;  
             	case "2":
                 	//makeNewFriendsMenu();
@@ -522,7 +522,7 @@ public class main{
         
         	switch (choice) {
             	case "1":
-                	//viewFriendsSorted();
+                	viewFriendsSorted();
                 	continue;  
             	case "2":
                 	//searchFriendByName();
@@ -551,7 +551,7 @@ public class main{
         
         	switch (choice) {
             	case "1":
-                	//addFriendsByName();
+                	addFriendsByName();
                 	continue;  
             	case "2":
                 	//addFriendsByInterest();
@@ -567,5 +567,32 @@ public class main{
         	}
     	}
 	}
+
+	public static void addFriendsByName() {
+		Scanner sc = new Scanner(System.in);
+		
+		while(true) {
+			System.out.println("Enter the person's name");
+			String name = sc.nextLine();
+	    	User tempUser = new User(name, "");
+	    	User storedUser = user.get(tempUser);
+		    
+		    System.out.println(storedUser.toString());
 			
+		    if (storedUser == null) {
+		        System.out.println("Username not found.");
+		    }
+			else if (storedUser.getPassword().equals(inputPassword)) {
+		        System.out.println("Login successful! Welcome, " + storedUser.getName() + "!");
+		        currUser = storedUser;
+		        userMenu();
+			}
+			else {
+		        System.out.println("Incorrect password.");
+		    }
+		}
+	}
+
+	public static void viewFriendsSorted() {
+	}
 }
