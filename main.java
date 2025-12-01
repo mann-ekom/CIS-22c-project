@@ -385,8 +385,7 @@ public class main{
 	        friendIdsLL,
 	        city,
 	        interestStringsLL.getLength(), // totalInterests
-	        interestStringsLL,
-	        emptyInterests
+	        interestStringsLL
 	    );
 	
 	    users.insert(newUser);
