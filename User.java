@@ -1,3 +1,4 @@
+
 import java.util.Comparator;
 
 class ID_COMPARATOR implements Comparator<User> {
@@ -110,7 +111,7 @@ public class User {
         this.friendsByName = new BST<User>();
         this.interests = new LinkedList<Interest>();
     }
-    public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<Interest> interests) {
+    public User(int id, String name, String username, String password, int totalFriends, LinkedList<Integer> friendIds, String city, int totalInterests, LinkedList<String> interestStrings, LinkedList<Interest> interests) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -228,7 +229,7 @@ public class User {
     
     public void addInterest(Interest interest) {
     	this.interests.addLast(interest);
-        totalInterests++;
+    	totalInterests++;
     }
     
     // ===== FRIEND & INTEREST HELPERS =====
@@ -247,7 +248,11 @@ public class User {
 
     @Override
     public int hashCode() {
-        return username.hashCode();
+    	int code = 0;
+        for(int i = 0; i < username.length(); i++) {
+           code += (int) username.charAt(i);
+        }
+        return code;
     }
 
     @Override
@@ -259,9 +264,9 @@ public class User {
             return false;
         }
         User other = (User) obj;
-        return this.name.equals(other.name);
+        return this.username.equals(other.username);
     }
-
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -292,9 +297,10 @@ public class User {
             interests.positionIterator();
             while (!interests.offEnd()) {
                 sb.append(interests.getIterator().getLabel()).append("\n");
-                interest.advanceIterator();
+                interests.advanceIterator();
             }
         }
         return sb.toString();
     }
 }
+
