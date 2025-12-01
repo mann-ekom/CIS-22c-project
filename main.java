@@ -370,7 +370,7 @@ public class main{
 	    // Determine a new user id.
 	    // If you maintain userByIndex (ArrayList<User>) use its size as next id.
 	    // Otherwise fall back to BST size + 1.
-	    int newId = -1;
+	    int newId = 0;
 	    try {
 	        // try userByIndex if available
 	        newId = userByIndex.size();         // if userByIndex index starts at 0 and you want id starting at 1 adjust accordingly
