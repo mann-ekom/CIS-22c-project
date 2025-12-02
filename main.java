@@ -563,6 +563,13 @@ public class main{
     }
 
 	/**
+     * Search for a friend by name
+     */
+    private void searchFriendByName() {
+        
+    }
+	
+	/**
      * View a friend's full profile with option to remove
      */
     private void viewFriendProfile(User friend) {
@@ -589,18 +596,16 @@ public class main{
         if (confirm.equals("yes")) {
             currUser.removeFriend(friend);
             friend.removeFriend(currUser);
-	        userConnections.removeEdge(currUser.getId(), friend.getId());
+	        userConnections.removeEdge(currUser.getId(), friend.getId());						// created removeEdge() in Graph
             System.out.println(friend.getName() + " has been removed from your friends.");
 		} else {
             System.out.println("Friend not removed.");
         	}
     }
 
-	public static void searchFriendByName() {
-	}
-
 
 	
+
 	
 	public static void makeNewFriendsMenu() {
 		Scanner sc = new Scanner(System.in);
