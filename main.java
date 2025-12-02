@@ -468,6 +468,8 @@ public class main{
         ArrayList<String> interests;
     }
 
+	
+	//------------------------------------------------------------------------------------------------
 	/**
  	 * User menu after login
  	 */
@@ -566,7 +568,29 @@ public class main{
      * Search for a friend by name
      */
     private void searchFriendByName() {
+        System.out.print("\nEnter name: ");
+        String name = scanner.nextLine().trim();        
+        ArrayList<User> allMatches = currtUser.getFriendsByName().searchByName(name);
         
+        if (allMatches.isEmpty()) {
+            System.out.println("No friends found with that name.");
+        } else {
+        	System.out.println("\nFriends found:");
+        	for (int i = 0; i < allMatches.size(); i++) {
+                System.out.println((i + 1) + ". " + allMatches.get(i).getName() + 
+                                 " (" + allMatches.get(i).getCity() + ")");
+            }
+            
+            System.out.print("\nEnter friend number to view profile (or 0 to go back): ");
+            try {
+                int choice = Integer.parseInt(scanner.nextLine().trim());
+                if (choice > 0 && choice <= allMatches.size()) {
+                    viewFriendProfile(allMatches.get(choice - 1));
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input.");
+            }
+        }
     }
 	
 	/**
@@ -605,7 +629,7 @@ public class main{
 
 
 	
-
+	//-----------------------------------------------------------------------------------------------------------
 	
 	public static void makeNewFriendsMenu() {
 		Scanner sc = new Scanner(System.in);
