@@ -545,6 +545,7 @@ public class main{
      * Display friends sorted by name
      */
     private static void viewFriendsSorted() {
+		Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Your Friends (Sorted by Name) ---");
         ArrayList<User> friends = currUser.getFriendsByName().toArrayList(); // created toArrayList() in BST<T> class for this
         
@@ -555,7 +556,7 @@ public class main{
         
         System.out.print("\nEnter friend number to view profile (or 0 to go back): ");
         try {
-            int choice = Integer.parseInt(scanner.nextLine().trim());
+            int choice = Integer.parseInt(sc.nextLine().trim());
             if (choice > 0 && choice <= friends.size()) {
                 viewFriendProfile(friends.get(choice - 1));
             }
@@ -567,10 +568,11 @@ public class main{
 	/**
      * Search for a friend by name
      */
-    private void searchFriendByName() {
+    private static void searchFriendByName() {
         System.out.print("\nEnter name: ");
-        String name = scanner.nextLine().trim();        
-        ArrayList<User> allMatches = currtUser.getFriendsByName().searchByName(name);
+		Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine().trim();        
+        ArrayList<User> allMatches = currUser.getFriendsByName().searchByName(name);
         
         if (allMatches.isEmpty()) {
             System.out.println("No friends found with that name.");
@@ -583,7 +585,7 @@ public class main{
             
             System.out.print("\nEnter friend number to view profile (or 0 to go back): ");
             try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
+                int choice = Integer.parseInt(sc.nextLine().trim());
                 if (choice > 0 && choice <= allMatches.size()) {
                     viewFriendProfile(allMatches.get(choice - 1));
                 }
@@ -596,14 +598,15 @@ public class main{
 	/**
      * View a friend's full profile with option to remove
      */
-    private void viewFriendProfile(User friend) {
+    private static void viewFriendProfile(User friend) {
+		Scanner sc = new Scanner(System.in);
         System.out.println("\n" + friend.toString()); 
         
         System.out.println("1. Remove this friend");
         System.out.println("2. Back");
         System.out.print("Enter choice: ");
         
-        String choice = scanner.nextLine().trim();
+        String choice = sc.nextLine().trim();
         if (choice.equals("1")) {
             removeFriend(friend);
         }
@@ -612,10 +615,11 @@ public class main{
 	/**
      * Remove a friend
      */
-    private void removeFriend(User friend) {
+    private static void removeFriend(User friend) {
+		Scanner sc = new Scanner(System.in);
         System.out.print("Are you sure you want to remove " + friend.getName() + 
 						 " from your friends? (yes/no): ");
-        String confirm = scanner.nextLine().trim().toLowerCase();
+        String confirm = sc.nextLine().trim().toLowerCase();
         
         if (confirm.equals("yes")) {
             currUser.removeFriend(friend);
