@@ -537,7 +537,7 @@ public class BST<T> {
          return right;
       }
    }
-
+	//----------------------------------------------------------------------------------------------------------
     /**
      * Returns all elements in the tree as an ArrayList (in-order) Using for ViewFriendSorted() in main
      * @return ArrayList of all elements
@@ -556,4 +556,33 @@ public class BST<T> {
 	   list.add(node.data);
 	   toArrayList(node.right, list);
    }
+
+   /**
+     * Searches for all users with a specific name,  created for searchFriendsByName() in main
+     * @param name the name to search for
+     * @return ArrayList of all matching users
+     */
+    public ArrayList<T> searchByName(String name) {
+        ArrayList<T> results = new ArrayList<>();
+        searchByName(name, root, results);
+        return results;
+    }
+
+	/*
+	 *	Helper for searchByName
+	 */
+    private void searchByName(String name, Node node, ArrayList<T> results) {
+        if (node == null) {
+            return;
+        }
+        
+        User user = (User) node.data;
+        if (user.getName().equalsIgnoreCase(name) == 0) {
+            results.add(node.data);
+        }
+        
+        // Search both subtrees since multiple users can have same name
+        searchByName(name, node.left, results);
+        searchByName(name, lastName, node.right, results);
+    }
 }
