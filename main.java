@@ -539,6 +539,31 @@ public class main{
     	}
 	}
 
+	/**
+     * Display friends sorted by name
+     */
+    private void viewFriendsSorted() {
+        System.out.println("\n--- Your Friends (Sorted by Name) ---");
+        ArrayList<User> friends = currUser.getFriendsByName().toArrayList(); // Need help here at the end(.toArrayList()
+        
+        for (int i = 0; i < friends.size(); i++) {
+            System.out.println((i + 1) + ". " + friends.get(i).getFullName() + 
+                             " (" + friends.get(i).getCity() + ")");
+        }
+        
+        System.out.print("\nEnter friend number to view profile (or 0 to go back): ");
+        try {
+            int choice = Integer.parseInt(scanner.nextLine().trim());
+            if (choice > 0 && choice <= friends.size()) {
+                viewFriendProfile(friends.get(choice - 1));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input.");
+        }
+    }
+
+	
+	
 	public static void makeNewFriendsMenu() {
 		Scanner sc = new Scanner(System.in);
 		boolean back = false;
