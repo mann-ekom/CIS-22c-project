@@ -664,27 +664,100 @@ public class main{
 	}
 
 	public static void addFriendsByName() {
-		Scanner sc = new Scanner(System.in);
-		
-		while(true) {
-			System.out.println("Enter the person's name");
-			String name = sc.nextLine();
-	    	User tempUser = new User(name, "");
-	    	User storedUser = user.get(tempUser);
-		    
-		    System.out.println(storedUser.toString());
-			
-		    if (storedUser == null) {
-		        System.out.println("Username not found.");
-		    }
-			else if (storedUser.getPassword().equals(inputPassword)) {
-		        System.out.println("Login successful! Welcome, " + storedUser.getName() + "!");
-		        currUser = storedUser;
-		        userMenu();
-			}
+	    Scanner sc = new Scanner(System.in);
+
+	    while (true) {
+	        System.out.println("Enter the person's name (or press Enter to return):");
+	        String name = sc.nextLine();
+	        if (name == null || name.trim().isEmpty()) {
+	            System.out.println("Returning to menu.");
+	            break;
+	        }
+	        User tempUser = new User(name, "");
+	        User storedUser = users.get(tempUser);
+	        BST<User> copy = users;
+	        copy.remove(tempUser);
+	        User storedUser2 = copy.get(tempUser);
+	        if (storedUser == null) {
+	            System.out.println("Person not found.");
+	            continue;
+	        }
+	
+	        if (storedUser2 != null && !storedUser2.equals(storedUser)) {
+	            int indexUser1 = currUser.friendIds.findIndex(storedUser.getId());
+	            int indexUser2 = currUser.friendIds.findIndex(storedUser2.getId());
+	
+	            System.out.println("1: " + storedUser + (indexUser1 != -1 ? " (already a friend)" : ""));
+	            System.out.println("2: " + storedUser2 + (indexUser2 != -1 ? " (already a friend)" : ""));
+	            System.out.println("Choose 1 or 2 to add as a friend (0 to cancel):");
+	
+	            int choice;
+	            if (!sc.hasNextInt()) {
+	                System.out.println("Invalid input. Please enter a number.");
+	                sc.nextLine();
+	                continue;
+	            }
+	            choice = sc.nextInt();
+	            sc.nextLine(); 
+	            if (choice == 0) {
+	                System.out.println("Canceled.");
+	                continue;
+	            }
+				else if (choice == 1) {
+	                if (indexUser1 != -1) {
+	                    System.out.println("That person is already your friend.");
+	                    continue;
+	                }
+	                // Add friend: update id list and BST via existing addFriend (won't touch the other user)
+	                currUser.getFriendIds().addLast(storedUser.getId());
+	                currUser.addFriend(storedUser);
+	                System.out.println("Added " + storedUser.getName() + " as a friend.");
+	            }
+				else if (choice == 2) {
+	                if (indexUser2 != -1) {
+	                    System.out.println("That person is already your friend.");
+	                    continue;
+	                }
+	                currUser.getFriendIds().addLast(storedUser2.getId());
+	                currUser.addFriend(storedUser2);
+	                System.out.println("Added " + storedUser2.getName() + " as a friend.");
+	            }
+				else {
+	                System.out.println("Invalid choice. Please enter 0, 1, or 2.");
+	                continue;
+	            }
+	        }
 			else {
-		        System.out.println("Incorrect password.");
-		    }
+	            int index = currUser.friendIds.findIndex(storedUser.getId());
+	            if (index != -1) {
+	                System.out.println(storedUser.getName() + " is already your friend.");
+	                continue;
+	            }
+	
+	            System.out.println("Found: " + storedUser);
+	            System.out.println("Add as friend? (1 = yes, 0 = no)");
+	
+	            int choice;
+	            if (!sc.hasNextInt()) {
+	                System.out.println("Invalid input. Please enter a number.");
+	                sc.nextLine();
+	                continue;
+	            }
+	            choice = sc.nextInt();
+	            sc.nextLine();
+	
+	            if (choice == 1) {
+	                currUser.getFriendIds().addLast(storedUser.getId());
+	                currUser.addFriend(storedUser);
+	                System.out.println("Added " + storedUser.getName() + " as a friend.");
+	            }
+				else if (choice == 0) {
+	                System.out.println("Not added.");
+	            }
+				else {
+	                System.out.println("Invalid choice. Please enter 0 or 1.");
+	            }
+	        }
 		}
 	}
 
