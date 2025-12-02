@@ -677,11 +677,11 @@ public class main{
 	            System.out.println("Returning to menu.");
 	            break;
 	        }
-	        User tempUser = new User(name, "");
-	        User storedUser = users.get(tempUser);
+	        User tempUser = new User(-1, name, "", "", "");
+	        User storedUser = users.search(tempUser, nameCmp);
 	        BST<User> copy = new BST<User>(users, nameCmp);
 	        copy.remove(tempUser, nameCmp);
-	        User storedUser2 = copy.get(tempUser);
+	        User storedUser2 = copy.search(tempUser, nameCmp);
 	        if (storedUser == null) {
 	            System.out.println("Person not found.");
 	            continue;
