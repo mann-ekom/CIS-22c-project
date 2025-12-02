@@ -643,7 +643,7 @@ public class main{
         	System.out.println("1. Search for Users by name");
         	System.out.println("2. Search Users by Interests");
         	System.out.println("3. Get Friend Recomendations");
-        	System.out.println("4. Back");m
+        	System.out.println("4. Back");
         	System.out.print("Enter choice: ");
         
         	String choice = sc.nextLine().trim();
@@ -669,7 +669,7 @@ public class main{
 
 	public static void addFriendsByName() {
 	    Scanner sc = new Scanner(System.in);
-
+		NAME_COMPARATOR nameCmp = new NAME_COMPARATOR();
 	    while (true) {
 	        System.out.println("Enter the person's name (or press Enter to return):");
 	        String name = sc.nextLine();
@@ -679,8 +679,8 @@ public class main{
 	        }
 	        User tempUser = new User(name, "");
 	        User storedUser = users.get(tempUser);
-	        BST<User> copy = users;
-	        copy.remove(tempUser);
+	        BST<User> copy = new BST<User>(users, nameCmp);
+	        copy.remove(tempUser, nameCmp);
 	        User storedUser2 = copy.get(tempUser);
 	        if (storedUser == null) {
 	            System.out.println("Person not found.");
@@ -688,8 +688,8 @@ public class main{
 	        }
 	
 	        if (storedUser2 != null && !storedUser2.equals(storedUser)) {
-	            int indexUser1 = currUser.friendIds.findIndex(storedUser.getId());
-	            int indexUser2 = currUser.friendIds.findIndex(storedUser2.getId());
+	            int indexUser1 = currUser.getFriendIds().findIndex(storedUser.getId());
+	            int indexUser2 = currUser.getFriendIds().findIndex(storedUser2.getId());
 	
 	            System.out.println("1: " + storedUser + (indexUser1 != -1 ? " (already a friend)" : ""));
 	            System.out.println("2: " + storedUser2 + (indexUser2 != -1 ? " (already a friend)" : ""));
@@ -732,7 +732,7 @@ public class main{
 	            }
 	        }
 			else {
-	            int index = currUser.friendIds.findIndex(storedUser.getId());
+	            int index = currUser.getFriendIds().findIndex(storedUser.getId());
 	            if (index != -1) {
 	                System.out.println(storedUser.getName() + " is already your friend.");
 	                continue;
