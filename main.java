@@ -122,7 +122,7 @@ public class main{
 		
     	System.out.println("\n╔════════════════════════════════════════╗");
     	System.out.println("║   Welcome to the Social Network App    ║");
-   		 System.out.println("╚════════════════════════════════════════╝");
+   		System.out.println("╚════════════════════════════════════════╝");
 
     	while (true) {  
     		Scanner sc = new Scanner(System.in);
