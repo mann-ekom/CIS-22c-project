@@ -22,23 +22,7 @@ public class main{
   	
   	
   	public static void main(String[] args) {
-		
 		runApp();
-		
-		//ask user for options 1, 2, or 3 (1 and 2 will open sub options)
-			//1: view my friends 
-				// all friends (sort by name)
-				// search for friend (by name, edge case friends with same name)
-					//view profile (name, username, friends?)
-					//remove friend
-			//2: make friends
-				//search by name
-				//search by interest
-				//get recomended friends (mason is working on this)
-					//getFriendRecomendations(currUser)
-			//3: exit
-				//write users data back to file
-				//MakeFile()
 	}
   	
 	private static void makeGraph() {
@@ -145,7 +129,7 @@ public class main{
                 	createAccount();
                 	continue;
             	case "3":
-                	//MakeFile();
+                	MakeFile();
 					sc.close();
                 	System.out.println("Goodbye!");
                 	return;   
@@ -489,10 +473,10 @@ public class main{
         
         	switch (choice) {
             	case "1":
-                	//viewFriendsMenu();
+                	viewFriendsMenu();
                 	continue;  
             	case "2":
-                	//makeNewFriendsMenu();
+                	makeNewFriendsMenu();
                 	continue;  
             	case "3":
                 	loggedIn = false;
@@ -530,7 +514,7 @@ public class main{
                 	viewFriendsSorted();
                 	continue;  
             	case "2":
-                	//searchFriendByName();
+                	searchFriendByName();
                 	continue;  
             	case "3":
                		back = true;
@@ -653,10 +637,10 @@ public class main{
                 	addFriendsByName();
                 	continue;  
             	case "2":
-                	//addFriendsByInterest();
+                	addFriendsByInterest();
                 	continue;
             	case "3":
-                	//addFriendsByRecommendation();
+                	addFriendsByRecommendation();
                 	continue;  
             	case "4":
                		back = true;
