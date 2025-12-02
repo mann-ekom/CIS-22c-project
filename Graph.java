@@ -174,8 +174,10 @@ public class Graph {
         if (userId1 >= 0 && userId1 < Vertices && 
             userId2 >= 0 && userId2 < Vertices) {
             
-            adj.get(userId1).remove(Integer.valueOf(userId2));
-            adj.get(userId2).remove(Integer.valueOf(userId1));
+            adj.get(userId1).advanceIteratorToIndex(Integer.valueOf(userId2));
+            adj.get(userId1).removeIterator();
+            adj.get(userId2).advanceIteratorToIndex(Integer.valueOf(userId1));
+            adj.get(userId2).removeIterator();
         }
     }
 
