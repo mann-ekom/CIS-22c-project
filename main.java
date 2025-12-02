@@ -566,7 +566,7 @@ public class main{
      * View a friend's full profile with option to remove
      */
     private void viewFriendProfile(User friend) {
-        System.out.println("\n" + friend.getDetailedProfile()); // created getDetailedProfile() in User class for this
+        System.out.println("\n" + friend.toString()); 
         
         System.out.println("1. Remove this friend");
         System.out.println("2. Back");
@@ -576,6 +576,24 @@ public class main{
         if (choice.equals("1")) {
             removeFriend(friend);
         }
+    }
+
+	/**
+     * Remove a friend
+     */
+    private void removeFriend(User friend) {
+        System.out.print("Are you sure you want to remove " + friend.getName() + 
+						 " from your friends? (yes/no): ");
+        String confirm = scanner.nextLine().trim().toLowerCase();
+        
+        if (confirm.equals("yes")) {
+            currUser.removeFriend(friend);
+            friend.removeFriend(currUser);
+	        userConnections.removeEdge(currUser.getId(), friend.getId());
+            System.out.println(friend.getName() + " has been removed from your friends.");
+		} else {
+            System.out.println("Friend not removed.");
+        	}
     }
 
 	public static void searchFriendByName() {
