@@ -547,4 +547,13 @@ public class BST<T> {
         toArrayList(root, list);
         return list;
     }
+
+   public void toArrayList(Node node, ArrayList<T> list) {
+	   if (node == null) {
+	         return;
+	   }
+	   toArrayList(node.left, list);
+	   list.add(node.data);
+	   toArrayList(node.right, list);
+   }
 }
