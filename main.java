@@ -664,7 +664,35 @@ public class main{
 		}
 	}
 
-	
+	public static void addFriendsByInterest() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the Interest you'd like to find friends with:");
+		String interestName = sc.nextLine().trim();
+		Interest interest = new Interest(-1, interestName);
+		int bucket = interestMap.get(interest).getId();
+		BST<User> bst = usersByInterest.get(bucket);
+		ArrayList<User> list = bst.toArrayList();
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println((i+1) + ": " + list.get(i).getName()+ "\n");
+		}
+		System.out.println("Enter the number of the user you'd like to add or 0 to return:");
+		String listString = sc.nextLine().trim();
+		int listInt;
+		try {
+			listInt = Integer.parseInt(listString);
+			if (listInt == 0) {
+				return;
+			} else if (listInt > list.size() || listInt < 0) {
+				System.out.println("Invalid input. Returning");
+				return;
+			} else {
+				addFriend(list.get(listInt));
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Invalid input. Returning");
+			return;
+		}
+	}
 
 	public static void addFriendsByRecommendation() {
 		Scanner sc = new Scanner(System.in);
