@@ -542,12 +542,12 @@ public class main{
 	/**
      * Display friends sorted by name
      */
-    private void viewFriendsSorted() {
+    private static void viewFriendsSorted() {
         System.out.println("\n--- Your Friends (Sorted by Name) ---");
-        ArrayList<User> friends = currUser.getFriendsByName().toArrayList(); // Need help here at the end(.toArrayList()
+        ArrayList<User> friends = currUser.getFriendsByName().toArrayList(); // created toArrayList() in BST<T> class for this
         
         for (int i = 0; i < friends.size(); i++) {
-            System.out.println((i + 1) + ". " + friends.get(i).getFullName() + 
+            System.out.println((i + 1) + ". " + friends.get(i).getName() + 
                              " (" + friends.get(i).getCity() + ")");
         }
         
@@ -561,6 +561,26 @@ public class main{
             System.out.println("Invalid input.");
         }
     }
+
+	/**
+     * View a friend's full profile with option to remove
+     */
+    private void viewFriendProfile(User friend) {
+        System.out.println("\n" + friend.getDetailedProfile()); // created getDetailedProfile() in User class for this
+        
+        System.out.println("1. Remove this friend");
+        System.out.println("2. Back");
+        System.out.print("Enter choice: ");
+        
+        String choice = scanner.nextLine().trim();
+        if (choice.equals("1")) {
+            removeFriend(friend);
+        }
+    }
+
+	public static void searchFriendByName() {
+	}
+
 
 	
 	
@@ -621,8 +641,7 @@ public class main{
 		}
 	}
 
-	public static void viewFriendsSorted() {
-	}
+	
 
 	public static void addFriendsByRecommendation() {
 		Scanner sc = new Scanner(System.in);
