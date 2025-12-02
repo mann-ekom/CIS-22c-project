@@ -537,4 +537,14 @@ public class BST<T> {
          return right;
       }
    }
+
+    /**
+     * Returns all elements in the tree as an ArrayList (in-order) Using for ViewFriendSorted() in main
+     * @return ArrayList of all elements
+     */
+    public ArrayList<T> toArrayList() {
+        ArrayList<T> list = new ArrayList<>();
+        toArrayList(root, list);
+        return list;
+    }
 }
