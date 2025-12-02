@@ -572,17 +572,17 @@ public class BST<T> {
 	 *	Helper for searchByName
 	 */
     private void searchByName(String name, Node node, ArrayList<T> results) {
-        if (node == null) {
-            return;
-        }
-        
-        User user = (User) node.data;
-        if (user.getName().equalsIgnoreCase(name) == 0) {
-            results.add(node.data);
-        }
-        
-        // Search both subtrees since multiple users can have same name
-        searchByName(name, node.left, results);
-        searchByName(name, lastName, node.right, results);
-    }
+       if (node == null) {
+           return;
+       }
+       
+       User user = (User) node.data;
+       if (user.getName().equalsIgnoreCase(name)) {
+           results.add(node.data);
+       }
+       
+       // Search both subtrees since multiple users can have same name
+       searchByName(name, node.left, results);
+       searchByName(name, node.right, results);
+   }
 }
