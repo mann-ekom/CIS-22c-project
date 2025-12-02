@@ -165,6 +165,20 @@ public class Graph {
       edges++;
    }
 
+   /**
+     * Removes an edge between two users
+     * @param userId1 first user's ID
+     * @param userId2 second user's ID
+     */
+    public void removeEdge(int userId1, int userId2) {
+        if (userId1 >= 0 && userId1 < Vertices && 
+            userId2 >= 0 && userId2 < Vertices) {
+            
+            adj.get(userId1).remove(Integer.valueOf(userId2));
+            adj.get(userId2).remove(Integer.valueOf(userId1));
+        }
+    }
+
    /*** Additional Operations ***/
 
    /**
