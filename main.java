@@ -584,7 +584,7 @@ public class main{
      */
     private static void viewFriendProfile(User friend) {
 		Scanner sc = new Scanner(System.in);
-        System.out.println("\n" + friend.toString()); 
+        System.out.println("\n" + profileString(friend)); 
         
         System.out.println("1. Remove this friend");
         System.out.println("2. Back");
@@ -675,8 +675,8 @@ public class main{
 	            int indexUser1 = currUser.getFriendIds().findIndex(storedUser.getId());
 	            int indexUser2 = currUser.getFriendIds().findIndex(storedUser2.getId());
 	
-	            System.out.println("1: " + storedUser + (indexUser1 != -1 ? " (already a friend)" : ""));
-	            System.out.println("2: " + storedUser2 + (indexUser2 != -1 ? " (already a friend)" : ""));
+	            System.out.println("1: " + storedUser.getName() + "\n" + storedUser.getUsername() + (indexUser1 != -1 ? " (already a friend)" : ""));
+	            System.out.println("2: " + storedUser2.getName() + "\n" + storedUser2.getUsername() + (indexUser2 != -1 ? " (already a friend)" : ""));
 	            System.out.println("Choose 1 or 2 to add as a friend (0 to cancel):");
 	
 	            int choice;
@@ -722,7 +722,7 @@ public class main{
 	                continue;
 	            }
 	
-	            System.out.println("Found: " + storedUser);
+	            System.out.println("Found: " + storedUser.getName() + "\n" + storedUser.getUsername());
 	            System.out.println("Add as friend? (1 = yes, 0 = no)");
 	
 	            int choice;
@@ -754,6 +754,10 @@ public class main{
 		System.out.println("Enter the Interest you'd like to find friends with:");
 		String interestName = sc.nextLine().trim();
 		Interest interest = new Interest(-1, interestName);
+		if (interestMap.get(interest) == null) {
+			System.out.println("Sorry, no one with that interest found!\n");
+			return;
+		}
 		int bucket = interestMap.get(interest).getId();
 		BST<User> bst = usersByInterest.get(bucket);
 		ArrayList<User> list = bst.toArrayList();
@@ -783,8 +787,8 @@ public class main{
 		Scanner sc = new Scanner(System.in);
 		ArrayList<User> recomend = getFriendRecommendations(currUser);
 		System.out.println("Here are some people we think could be your friends:");
-		for (int i = 1; i <= recomend.size(); i++) {
-			System.out.print(i + ": ");
+		for (int i = 0; i < recomend.size(); i++) {
+			System.out.print((i+1) + ": ");
 			System.out.println(recomend.get(i).getName());
 			System.out.println(recomend.get(i).getUsername() + "\n");
 		}
@@ -799,7 +803,7 @@ public class main{
 				System.out.println("Invalid input. Returning");
 				return;
 			} else {
-				addFriend(recomend.get(choiceInt));
+				addFriend(recomend.get(choiceInt-1));
 			}
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid input. Returning");
@@ -813,4 +817,30 @@ public class main{
 		int id2 = friend.getId();
 		userConnections.addDirectedEdge(id1, id2);
 	}
+	
+	public static String profileString(User friend) {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(friend.getName()).append("\n");
+    	sb.append(friend.getUsername()).append("\n");
+    	sb.append(friend.getCity()).append("\n");
+    	sb.append("\nInterests:").append("\n");
+    	if (friend.getInterests() != null) {
+    		friend.getInterests().positionIterator();
+            while (!friend.getInterests() .offEnd()) {
+                sb.append(friend.getInterests().getIterator().getLabel()).append("\n");
+                friend.getInterests().advanceIterator();
+            }
+        }
+    	sb.append("\nFriends:").append("\n");
+    	
+    	if (friend.getFriendIds() != null) {
+    		friend.getFriendIds().positionIterator();
+    		while (!friend.getFriendIds().offEnd()) {
+    			 sb.append(userByIndex.get(friend.getFriendIds().getIterator()).getName()).append("\n");
+    			 friend.getFriendIds().advanceIterator();
+    		}
+    	}
+    	
+    	return sb.toString();
+    }
 }
