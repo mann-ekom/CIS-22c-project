@@ -240,7 +240,7 @@ public class main{
         		if(user != null) {
         			user.getFriendIds().positionIterator();
         			while (!user.getFriendIds().offEnd()) {
-        				user.addFriend(userByIndex.get(user.getFriendIds().getIterator()));
+        				user.addFriendBST(userByIndex.get(user.getFriendIds().getIterator()));
         				user.getFriendIds().advanceIterator();
         			}
         		}
@@ -422,7 +422,7 @@ public class main{
 	        usernamePass.add(newUser); // rename userTable to your actual HashTable<User> field if you have it
 	    } catch (Exception ignored) { /* if you don't have a HashTable<User> field, ignore */ }
 	
-	
+	    makeGraph();
 	    // If you track Interests mapping (Interest objects), add creation / linking here:
 	    // For each interestString, you probably want to find/create the corresponding Interest object
 	    // and call newUser.addInterest(interest) and usersByInterest.get(interestId).insert(newUser).
@@ -697,8 +697,7 @@ public class main{
 	                    continue;
 	                }
 	                // Add friend: update id list and BST via existing addFriend (won't touch the other user)
-	                currUser.getFriendIds().addLast(storedUser.getId());
-	                currUser.addFriend(storedUser);
+	                addFriend(storedUser);
 	                System.out.println("Added " + storedUser.getName() + " as a friend.");
 	            }
 				else if (choice == 2) {
@@ -706,8 +705,7 @@ public class main{
 	                    System.out.println("That person is already your friend.");
 	                    continue;
 	                }
-	                currUser.getFriendIds().addLast(storedUser2.getId());
-	                currUser.addFriend(storedUser2);
+	                addFriend(storedUser2);
 	                System.out.println("Added " + storedUser2.getName() + " as a friend.");
 	            }
 				else {
@@ -736,7 +734,7 @@ public class main{
 	
 	            if (choice == 1) {
 	                currUser.getFriendIds().addLast(storedUser.getId());
-	                currUser.addFriend(storedUser);
+	                addFriend(storedUser);
 	                System.out.println("Added " + storedUser.getName() + " as a friend.");
 	            }
 				else if (choice == 0) {
@@ -775,7 +773,7 @@ public class main{
 				System.out.println("Invalid input. Returning");
 				return;
 			} else {
-				addFriend(list.get(listInt));
+				addFriend(list.get(listInt-1));
 			}
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid input. Returning");
