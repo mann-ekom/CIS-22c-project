@@ -11,11 +11,8 @@ class ID_COMPARATOR implements Comparator<User> {
 
 class NAME_COMPARATOR implements Comparator<User> {
     public int compare(User a, User b) {
-        int cmp = a.getName().compareTo(b.getName());
-        if (cmp != 0) {
-            return cmp;
-        }
-        return a.getUsername().compareTo(b.getUsername());
+        return a.getName().compareTo(b.getName());
+        
     }
 }
 
@@ -235,11 +232,20 @@ public class User {
     // ===== FRIEND & INTEREST HELPERS =====
     public void addFriend(User friend) {
         friendsByName.insert(friend, NAME_COMPARATOR);
+        friendIds.addLast(friend.getId());
+        totalFriends++;
+    }
+    
+    public void addFriendBST(User friend) {
+        friendsByName.insert(friend, NAME_COMPARATOR);
         totalFriends++;
     }
 
     public void removeFriend(User friend) {
         friendsByName.remove(friend, NAME_COMPARATOR);
+        friendIds.advanceIteratorToIndex(friendIds.findIndex(friend.getId()));
+        friendIds.removeIterator();
+        totalFriends--;
     }
 
     public void addConvertedInterest(Interest interest) {
@@ -302,5 +308,6 @@ public class User {
         }
         return sb.toString();
     }
+    
+    
 }
-
